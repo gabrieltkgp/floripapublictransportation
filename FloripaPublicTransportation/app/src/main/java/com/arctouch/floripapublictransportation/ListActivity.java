@@ -54,7 +54,5 @@ public class ListActivity extends AppCompatActivity implements AdapterView.OnIte
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         ItemListViewResult item = (ItemListViewResult) listViewResultAdapter.getItem(position);
         Toast.makeText(this, "Click: " + item.getText(), Toast.LENGTH_LONG).show();
-
-
     }
 }
