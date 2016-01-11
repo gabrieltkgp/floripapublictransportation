@@ -5,7 +5,13 @@ package com.arctouch.floripapublictransportation.classes;
  */
 public class ItemListViewResult {
 
+    private String text;
     private int id;
+
+    public ItemListViewResult(int id, String text) {
+        this.id = id;
+        this.text = text;
+    }
 
     public int getId() {
         return id;
@@ -13,15 +19,6 @@ public class ItemListViewResult {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    private String text;
-
-    public ItemListViewResult(){}
-
-    public ItemListViewResult(String text)
-    {
-        this.text = text;
     }
 
     public String getText() {
