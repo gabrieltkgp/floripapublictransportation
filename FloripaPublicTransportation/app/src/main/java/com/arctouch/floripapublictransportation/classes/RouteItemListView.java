@@ -3,12 +3,12 @@ package com.arctouch.floripapublictransportation.classes;
 /**
  * Created by GabrielPacheco on 05/01/2016.
  */
-public class ItemListViewResult {
+public class RouteItemListView {
 
     private String text;
     private int id;
 
-    public ItemListViewResult(int id, String text) {
+    public RouteItemListView(int id, String text) {
         this.id = id;
         this.text = text;
     }

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
@@ -18,12 +17,16 @@ import com.arctouch.floripapublictransportation.R;
 public class ListViewResultAdapter extends BaseAdapter{
 
     private LayoutInflater mInflater;
-    private ArrayList<ItemListViewResult> items;
+    private ArrayList<RouteItemListView> items;
 
-    public ListViewResultAdapter(Context context, ArrayList<ItemListViewResult> items) {
+    public ListViewResultAdapter(Context context, ArrayList<RouteItemListView> items) {
         this.items = items;
-        mInflater = LayoutInflater.from(context);
+        this.mInflater = LayoutInflater.from(context);
     }
+
+    public ListViewResultAdapter() {
+    }
+
 
     @Override
     public int getCount() {
@@ -42,12 +45,20 @@ public class ListViewResultAdapter extends BaseAdapter{
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ItemListViewResult item = items.get(position);
+        RouteItemListView item = items.get(position);
 
         convertView = mInflater.inflate(R.layout.item_list_result, null);
 
         ((TextView) convertView.findViewById(R.id.textView)).setText(item.getText());
 
         return convertView;
+    }
+
+    public void setMInflater(Context context) {
+        this.mInflater = LayoutInflater.from(context);
+    }
+
+    public void setItems(ArrayList<RouteItemListView> items) {
+        this.items = items;
     }
 }

@@ -3,7 +3,6 @@ package com.arctouch.floripapublictransportation.classes;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
@@ -32,7 +31,7 @@ public class FindRoutNetworkRest extends AsyncTask<String, Void, String> {
 
     private ListView listView;
     private ListViewResultAdapter listViewResultAdapter;
-    private ArrayList<ItemListViewResult> items;
+    private ArrayList<RouteItemListView> items;
 
     private String address;
 
@@ -59,17 +58,19 @@ public class FindRoutNetworkRest extends AsyncTask<String, Void, String> {
             JSONObject json = new JSONObject(res);
             JSONArray rows = json.getJSONArray("rows");
 
-            items = new ArrayList<ItemListViewResult>();
+            items = new ArrayList<RouteItemListView>();
 
             for (int i = 0; i < rows.length(); i++) {
                 JSONObject obj = rows.getJSONObject(i);
 
-                ItemListViewResult item = new ItemListViewResult(obj.getInt("id"), obj.getString("longName"));
+                RouteItemListView item = new RouteItemListView(obj.getInt("id"), obj.getString("longName"));
 
                 items.add(item);
             }
 
-            listViewResultAdapter = new ListViewResultAdapter(this.context, items);
+            //listViewResultAdapter = new ListViewResultAdapter(this.context, items);
+            listViewResultAdapter.setItems(items);
+            listViewResultAdapter.setMInflater(context);
 
             listView.setAdapter(this.listViewResultAdapter);
 

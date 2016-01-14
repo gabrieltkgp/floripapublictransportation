@@ -2,6 +2,7 @@ package com.arctouch.floripapublictransportation.activity;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -18,7 +19,7 @@ import android.widget.Toast;
 import com.arctouch.floripapublictransportation.R;
 import com.arctouch.floripapublictransportation.classes.FindRoutNetworkRest;
 import com.arctouch.floripapublictransportation.classes.RestConfiguration;
-import com.arctouch.floripapublictransportation.classes.ItemListViewResult;
+import com.arctouch.floripapublictransportation.classes.RouteItemListView;
 import com.arctouch.floripapublictransportation.classes.ListViewResultAdapter;
 
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ public class ListRouteActivity extends AppCompatActivity implements AdapterView.
 
     private ListView listView;
     private ListViewResultAdapter listViewResultAdapter;
-    private ArrayList<ItemListViewResult> items;
+    private ArrayList<RouteItemListView> items;
     private EditText editText;
 
     private RestConfiguration restConfiguration;
@@ -48,12 +49,24 @@ public class ListRouteActivity extends AppCompatActivity implements AdapterView.
         listView.setCacheColorHint(Color.TRANSPARENT);
 
         editText = (EditText) findViewById(R.id.editTextSearch);
+
+        listViewResultAdapter = new ListViewResultAdapter();
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        ItemListViewResult item = (ItemListViewResult) listViewResultAdapter.getItem(position);
-        Toast.makeText(this, "Click: " + item.getId() + " = " + item.getText(), Toast.LENGTH_LONG).show();
+        RouteItemListView item = (RouteItemListView) this.listViewResultAdapter.getItem(position);
+        Toast.makeText(this, "Click: " + item.getId() + " = " + item.getText(), Toast.LENGTH_SHORT).show();
+
+        callDetailsRouteActivity(item);
+    }
+
+    private void callDetailsRouteActivity(RouteItemListView item) {
+        Intent it = new Intent(this, DetailsRouteActivity.class);
+        Integer routeId = item.getId();
+        it.putExtra("RouteId", routeId.toString());
+
+        startActivityForResult(it, 1);
     }
 
     public void onButtonClick(View v){
