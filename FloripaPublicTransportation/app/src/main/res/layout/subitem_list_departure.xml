@@ -9,6 +9,6 @@
         android:text="New Text"
         android:id="@+id/textViewDeparture"
         android:gravity="center_vertical"
-        android:layout_marginLeft="10dp"/>
+        android:layout_marginLeft="50dp"/>
 
 </RelativeLayout>

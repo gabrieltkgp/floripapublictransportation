@@ -1,4 +1,4 @@
-package com.arctouch.floripapublictransportation.activity;
+package com.arctouch.floripapublictransportation.activities;
 
 
 import android.content.Context;
@@ -17,7 +17,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.arctouch.floripapublictransportation.R;
-import com.arctouch.floripapublictransportation.classes.FindRoutNetworkRest;
+import com.arctouch.floripapublictransportation.classes.FindRoutesRest;
 import com.arctouch.floripapublictransportation.classes.RestConfiguration;
 import com.arctouch.floripapublictransportation.classes.RouteItemListView;
 import com.arctouch.floripapublictransportation.classes.ListViewResultAdapter;
@@ -41,6 +41,9 @@ public class ListRouteActivity extends AppCompatActivity implements AdapterView.
         restConfiguration = new RestConfiguration(this);
 
         initializeComponents();
+
+        //ImageButton buttonSearch = (ImageButton) findViewById(R.id.buttonSearch);
+        //buttonSearch.setBackgroundResource(R.mipmap.search);
     }
 
     private void initializeComponents(){
@@ -65,6 +68,7 @@ public class ListRouteActivity extends AppCompatActivity implements AdapterView.
         Intent it = new Intent(this, DetailsRouteActivity.class);
         Integer routeId = item.getId();
         it.putExtra("RouteId", routeId.toString());
+        it.putExtra("RouteName", item.getText());
 
         startActivityForResult(it, 1);
     }
@@ -78,9 +82,9 @@ public class ListRouteActivity extends AppCompatActivity implements AdapterView.
                 getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
-            FindRoutNetworkRest findRoutNetworkRest = new FindRoutNetworkRest(this, restConfiguration.getUser(), restConfiguration.getPassword(),
-                    this.listView, this.listViewResultAdapter, editText.getText().toString());
-            findRoutNetworkRest.execute(restConfiguration.getUrlFindRoutes());
+            FindRoutesRest findRoutesRest = new FindRoutesRest(this, restConfiguration.getUser(), restConfiguration.getPassword(), editText.getText().toString(),
+                    this.listView, this.listViewResultAdapter);
+            findRoutesRest.execute(restConfiguration.getUrlFindRoutes());
         } else {
             Toast.makeText(this, "No network connection available.", Toast.LENGTH_LONG).show();
         }

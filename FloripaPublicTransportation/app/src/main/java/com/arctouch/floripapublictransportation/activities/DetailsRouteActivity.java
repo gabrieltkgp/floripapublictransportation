@@ -1,10 +1,11 @@
-package com.arctouch.floripapublictransportation.activity;
+package com.arctouch.floripapublictransportation.activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ExpandableListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.arctouch.floripapublictransportation.R;
@@ -17,7 +18,10 @@ import java.util.List;
 
 public class DetailsRouteActivity extends AppCompatActivity {
 
-    String routeId;
+    String routeName;
+
+    List<StopItemExpandableListView> itemsStops = new ArrayList<>();
+    List<Object> subItemsStops = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,9 +29,10 @@ public class DetailsRouteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_details);
 
         Intent it = getIntent();
-        routeId = it.getStringExtra("RouteId");
+        routeName = it.getStringExtra("RouteName");
 
-        Toast.makeText(DetailsRouteActivity.this, routeId, Toast.LENGTH_SHORT).show();
+        TextView textViewRoute = (TextView) findViewById(R.id.textViewRoute);
+        textViewRoute.setText(routeName);
 
         createExpandableListView();
     }
@@ -41,7 +46,7 @@ public class DetailsRouteActivity extends AppCompatActivity {
 
     private void createExpandableListView(){
         ExpandableListView expandableListViewDetails = (ExpandableListView) findViewById(R.id.expandableListViewDetails);
-        List<StopItemExpandableListView> itemsStops = new ArrayList<>();
+
         StopItemExpandableListView stopItemExpandableListView1 = new StopItemExpandableListView();
         stopItemExpandableListView1.setStopId(1);
         stopItemExpandableListView1.setStopName("teste1");
@@ -52,10 +57,10 @@ public class DetailsRouteActivity extends AppCompatActivity {
         stopItemExpandableListView2.setStopName("teste2");
         itemsStops.add(stopItemExpandableListView2);
 
-        StopItemExpandableListView stopItemExpandableListView3 = new StopItemExpandableListView();
+       /* StopItemExpandableListView stopItemExpandableListView3 = new StopItemExpandableListView();
         stopItemExpandableListView3.setStopId(3);
         stopItemExpandableListView3.setStopName("teste3");
-        itemsStops.add(stopItemExpandableListView3);
+        itemsStops.add(stopItemExpandableListView3);*/
 
         List<DepartureSubItemExpandableListView> subItemsDeparture = new ArrayList<>();
 
@@ -74,7 +79,18 @@ public class DetailsRouteActivity extends AppCompatActivity {
         departureSubItemExpandableListView3.setDepartureCalendar("SUNDAY");
         subItemsDeparture.add(departureSubItemExpandableListView3);
 
-        ExpandableListViewDetailAdapter adapter = new ExpandableListViewDetailAdapter(getBaseContext(), itemsStops, subItemsDeparture);
+        subItemsStops.add(subItemsDeparture);
+
+        List<DepartureSubItemExpandableListView> subItemsDeparture2 = new ArrayList<>();
+
+        DepartureSubItemExpandableListView departureSubItemExpandableListView4 = new DepartureSubItemExpandableListView();
+        departureSubItemExpandableListView4.setDepartureTime("10:00");
+        departureSubItemExpandableListView4.setDepartureCalendar("SUNDAY");
+        subItemsDeparture2.add(departureSubItemExpandableListView4);
+
+        subItemsStops.add(subItemsDeparture2);
+
+        ExpandableListViewDetailAdapter adapter = new ExpandableListViewDetailAdapter(getBaseContext(), itemsStops, subItemsStops);
         expandableListViewDetails.setAdapter(adapter);
     }
 }

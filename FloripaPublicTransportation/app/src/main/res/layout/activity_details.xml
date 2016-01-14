@@ -19,18 +19,22 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ImageButton
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:text="Back"
         android:id="@+id/buttonBack"
         android:layout_below="@+id/textViewRoute"
         android:layout_centerHorizontal="true"
-        android:onClick="onButtonBackClick"/>
+        android:onClick="onButtonBackClick"
+        android:background="@mipmap/back"/>
 
     <ExpandableListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/expandableListViewDetails"
-        android:layout_below="@+id/buttonBack"/>
+        android:layout_below="@+id/buttonBack"
+        />
+
+
 </RelativeLayout>
