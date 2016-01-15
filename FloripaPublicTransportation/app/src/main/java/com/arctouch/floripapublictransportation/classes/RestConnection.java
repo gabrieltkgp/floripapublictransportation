@@ -1,8 +1,9 @@
 package com.arctouch.floripapublictransportation.classes;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Base64;
+
+import com.arctouch.floripapublictransportation.interfaces.AsyncResponse;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -16,22 +17,22 @@ import java.util.ArrayList;
 /**
  * Created by GabrielPacheco on 14/01/2016.
  */
-public class RestConnection extends AsyncTask<String, Void, String>{
-    private Context context;
+public class RestConnection extends AsyncTask<String, Void, String> {
     private String user;
     private String password;
-    private String textSearch;
+    private String query;
+    private AsyncResponse delegate;
 
     //constructor
-    public RestConnection(Context context, String user, String password, String textSearch) {
-        this.context = context;
+    public RestConnection(AsyncResponse delegate, String user, String password, String query) {
+        this.delegate = delegate;
         this.user = user;
         this.password = password;
-        this.textSearch = textSearch;
+        this.query = query;
     }
 
     //private methods
-    private String getAuthorization(){
+    private String formatAuthorization() {
         String usernamePassword = this.user + ":" + this.password;
         return "Basic " + Base64.encodeToString(usernamePassword.getBytes(), Base64.NO_WRAP);
     }
@@ -42,45 +43,69 @@ public class RestConnection extends AsyncTask<String, Void, String>{
         HttpURLConnection connection = null;
 
         try {
-            url = new URL(myUrl);
+            connection = createConnection(myUrl);
 
-            connection = (HttpURLConnection)url.openConnection();
+            sendConnectionParams(connection);
 
-            connection.setRequestMethod("POST");
-            connection.setRequestProperty("Content-Language", "en-US");
-            connection.setRequestProperty("Authorization", getAuthorization());
-            connection.setRequestProperty("Content-Type", "application/json");
-            connection.setRequestProperty("X-AppGlu-Environment", "staging");
+            return receiveConnectionContent(connection);
 
-            connection.setDoOutput(true);
+        } finally {
+            if (connection != null) {
+                connection.disconnect();
+            }
+        }
+    }
 
-            DataOutputStream wr = new DataOutputStream (connection.getOutputStream());
-
-            wr.writeBytes (getJsonParams());
-            wr.flush();
-            wr.close();
-
+    private String receiveConnectionContent(HttpURLConnection connection) throws IOException {
+        InputStream is = null;
+        StringBuffer response = new StringBuffer();
+        try {
             is = connection.getInputStream();
+
             BufferedReader rd = new BufferedReader(new InputStreamReader(is));
             String line;
-            StringBuffer response = new StringBuffer();
-            while((line = rd.readLine()) != null) {
+
+            while ((line = rd.readLine()) != null) {
                 response.append(line);
                 response.append('\r');
             }
             rd.close();
 
-            return response.toString();
-
         } finally {
             if (is != null) {
                 is.close();
             }
-
-            if(connection != null) {
-                connection.disconnect();
-            }
         }
+
+        return response.toString();
+    }
+
+    private void sendConnectionParams(HttpURLConnection connection) throws IOException {
+        DataOutputStream wr = null;
+
+        wr = new DataOutputStream(connection.getOutputStream());
+        wr.writeBytes(getJsonParams());
+        wr.flush();
+        wr.close();
+    }
+
+    private HttpURLConnection createConnection(String myUrl) throws IOException{
+        URL url = null;
+        HttpURLConnection connection = null;
+
+        url = new URL(myUrl);
+
+        connection = (HttpURLConnection) url.openConnection();
+
+        connection.setRequestMethod("POST");
+        connection.setRequestProperty("Content-Language", "en-US");
+        connection.setRequestProperty("Authorization", formatAuthorization());
+        connection.setRequestProperty("Content-Type", "application/json");
+        connection.setRequestProperty("X-AppGlu-Environment", "staging");
+
+        connection.setDoOutput(true);
+
+        return connection;
     }
 
     //protected methods
@@ -96,30 +121,26 @@ public class RestConnection extends AsyncTask<String, Void, String>{
     @Override
     protected void onPostExecute(String res) {
         ArrayList items = parseJson(res);
-        executeAfterParseJson(items);
+
+        delegate.processFinish(items);
     }
 
     //this method has to be inherited on child classes.
-    protected String getJsonParams(){
+    protected String getJsonParams() {
         return "";
     }
 
     //this method has to be inherited on child classes.
-    protected ArrayList parseJson(String jsonResult){
+    protected ArrayList parseJson(String jsonResult) {
         return null;
     }
 
-    //this method has to be inherited on child classes.
-    protected void executeAfterParseJson(ArrayList items) {
-        return;
-    }
-
     //public methods
-    public Context getContext() {
-        return context;
+    public String getQuery() {
+        return this.query;
     }
 
-    public String getTextSearch() {
-        return textSearch;
+    public AsyncResponse getDelegate() {
+        return this.delegate;
     }
 }

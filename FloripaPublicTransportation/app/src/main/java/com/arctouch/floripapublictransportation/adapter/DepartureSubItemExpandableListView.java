@@ -1,4 +1,4 @@
-package com.arctouch.floripapublictransportation.classes;
+package com.arctouch.floripapublictransportation.adapter;
 
 /**
  * Created by GabrielPacheco on 14/01/2016.

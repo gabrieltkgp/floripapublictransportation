@@ -1,4 +1,4 @@
-package com.arctouch.floripapublictransportation.classes;
+package com.arctouch.floripapublictransportation.adapter;
 
 import android.content.Context;
 import android.view.View;
@@ -7,6 +7,7 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
 import com.arctouch.floripapublictransportation.R;
+import com.arctouch.floripapublictransportation.entity.Stop;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,11 +18,11 @@ import java.util.List;
 public class ExpandableListViewDetailAdapter extends BaseExpandableListAdapter {
 
     private Context context;
-    private List<StopItemExpandableListView> items;
+    private List<Stop> items;
     private List<Object> subItemsStop;
     private List<DepartureSubItemExpandableListView> subItems;
 
-    public ExpandableListViewDetailAdapter(Context context, List<StopItemExpandableListView> items, List<Object> subItems) {
+    public ExpandableListViewDetailAdapter(Context context, List<Stop> items, List<Object> subItems) {
         this.context = context;
         this.items = items;
         this.subItemsStop = subItems;
@@ -68,8 +69,8 @@ public class ExpandableListViewDetailAdapter extends BaseExpandableListAdapter {
             convertView = View.inflate(context, R.layout.item_list_stop, null);
         }
         TextView textViewStopName = (TextView) convertView.findViewById(R.id.textViewStopName);
-        StopItemExpandableListView stopItemExpandableListView = items.get(groupPosition);
-        textViewStopName.setText(stopItemExpandableListView.getStopName());
+        Stop stop = items.get(groupPosition);
+        textViewStopName.setText(stop.getName());
         return convertView;
     }
 

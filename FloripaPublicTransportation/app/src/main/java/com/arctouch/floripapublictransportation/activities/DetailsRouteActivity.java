@@ -1,27 +1,45 @@
 package com.arctouch.floripapublictransportation.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ExpandableListView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.arctouch.floripapublictransportation.R;
-import com.arctouch.floripapublictransportation.classes.DepartureSubItemExpandableListView;
-import com.arctouch.floripapublictransportation.classes.ExpandableListViewDetailAdapter;
-import com.arctouch.floripapublictransportation.classes.StopItemExpandableListView;
+import com.arctouch.floripapublictransportation.adapter.DepartureSubItemExpandableListView;
+import com.arctouch.floripapublictransportation.adapter.ExpandableListViewDetailAdapter;
+import com.arctouch.floripapublictransportation.adapter.ListViewRoutesAdapter;
+import com.arctouch.floripapublictransportation.adapter.ListViewStopsAdapter;
+import com.arctouch.floripapublictransportation.classes.FindRoutesRest;
+import com.arctouch.floripapublictransportation.classes.FindStopsRest;
+import com.arctouch.floripapublictransportation.classes.RestConfiguration;
+import com.arctouch.floripapublictransportation.entity.Stop;
+import com.arctouch.floripapublictransportation.interfaces.AsyncResponse;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DetailsRouteActivity extends AppCompatActivity {
+public class DetailsRouteActivity extends AppCompatActivity implements AsyncResponse {
 
-    String routeName;
+    private String routeName;
+    private String routeId;
 
-    List<StopItemExpandableListView> itemsStops = new ArrayList<>();
-    List<Object> subItemsStops = new ArrayList<>();
+    private List<Stop> itemsStops = new ArrayList<>();
+    private List<Object> subItemsStops = new ArrayList<>();
+
+    private ListViewStopsAdapter listViewStopsAdapter;
+    private ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,10 +47,15 @@ public class DetailsRouteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_details);
 
         Intent it = getIntent();
-        routeName = it.getStringExtra("RouteName");
+        this.routeId = it.getStringExtra("routeId");
+        this.routeName = it.getStringExtra("routeName");
 
         TextView textViewRoute = (TextView) findViewById(R.id.textViewRoute);
-        textViewRoute.setText(routeName);
+        textViewRoute.setText(this.routeName);
+
+        initializeComponents();
+
+        executeTestNetwork();
 
         createExpandableListView();
     }
@@ -44,22 +67,62 @@ public class DetailsRouteActivity extends AppCompatActivity {
         finish();
     }
 
+    private void initializeComponents(){
+        listView = (ListView) findViewById(R.id.listViewStops);
+        //listView.setOnItemClickListener(this);
+        listView.setCacheColorHint(Color.TRANSPARENT);
+
+        listViewStopsAdapter = new ListViewStopsAdapter();
+    }
+
+    public void executeTestNetwork(){
+        ConnectivityManager connMgr = (ConnectivityManager)
+                getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+
+            RestConfiguration restConfiguration = new RestConfiguration(this);
+
+            try {
+                restConfiguration.readProperties();
+            } catch (IOException e) {
+                showMessageToast("Properties not found.");
+                return;
+            }
+
+            FindStopsRest findStopsRest = new FindStopsRest(this, restConfiguration.getUser(), restConfiguration.getPassword(), this.routeId);
+
+            findStopsRest.execute(restConfiguration.getUrlFindStops());
+        } else {
+            showMessageToast("No network connection available.");
+        }
+    }
+
+    @Override
+    public void processFinish(ArrayList items) {
+        listViewStopsAdapter.setItems(items);
+        listViewStopsAdapter.setMInflater(this);
+
+        listView.setAdapter(listViewStopsAdapter);
+    }
+
+    @Override
+    public void showMessageToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+    }
+
     private void createExpandableListView(){
-        ExpandableListView expandableListViewDetails = (ExpandableListView) findViewById(R.id.expandableListViewDetails);
+        ExpandableListView expandableListViewDetails = (ExpandableListView) findViewById(R.id.expandableListViewTimetable);
 
-        StopItemExpandableListView stopItemExpandableListView1 = new StopItemExpandableListView();
-        stopItemExpandableListView1.setStopId(1);
-        stopItemExpandableListView1.setStopName("teste1");
-        itemsStops.add(stopItemExpandableListView1);
+        Stop stop1 = new Stop(1, "teste1", 1, 1);
+        itemsStops.add(stop1);
 
-        StopItemExpandableListView stopItemExpandableListView2 = new StopItemExpandableListView();
-        stopItemExpandableListView2.setStopId(2);
-        stopItemExpandableListView2.setStopName("teste2");
-        itemsStops.add(stopItemExpandableListView2);
+        Stop stop2 = new Stop(2, "teste1", 1, 1);
+        itemsStops.add(stop2);
 
-       /* StopItemExpandableListView stopItemExpandableListView3 = new StopItemExpandableListView();
-        stopItemExpandableListView3.setStopId(3);
-        stopItemExpandableListView3.setStopName("teste3");
+       /* Stop stopItemExpandableListView3 = new Stop();
+        stopItemExpandableListView3.setId(3);
+        stopItemExpandableListView3.setName("teste3");
         itemsStops.add(stopItemExpandableListView3);*/
 
         List<DepartureSubItemExpandableListView> subItemsDeparture = new ArrayList<>();

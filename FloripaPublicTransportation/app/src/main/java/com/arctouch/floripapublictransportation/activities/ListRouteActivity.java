@@ -19,31 +19,25 @@ import android.widget.Toast;
 import com.arctouch.floripapublictransportation.R;
 import com.arctouch.floripapublictransportation.classes.FindRoutesRest;
 import com.arctouch.floripapublictransportation.classes.RestConfiguration;
-import com.arctouch.floripapublictransportation.classes.RouteItemListView;
-import com.arctouch.floripapublictransportation.classes.ListViewResultAdapter;
+import com.arctouch.floripapublictransportation.entity.Route;
+import com.arctouch.floripapublictransportation.adapter.ListViewRoutesAdapter;
+import com.arctouch.floripapublictransportation.interfaces.AsyncResponse;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
-public class ListRouteActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class ListRouteActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, AsyncResponse {
 
     private ListView listView;
-    private ListViewResultAdapter listViewResultAdapter;
-    private ArrayList<RouteItemListView> items;
+    private ListViewRoutesAdapter listViewRoutesAdapter;
     private EditText editText;
-
-    private RestConfiguration restConfiguration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
 
-        restConfiguration = new RestConfiguration(this);
-
         initializeComponents();
-
-        //ImageButton buttonSearch = (ImageButton) findViewById(R.id.buttonSearch);
-        //buttonSearch.setBackgroundResource(R.mipmap.search);
     }
 
     private void initializeComponents(){
@@ -53,22 +47,22 @@ public class ListRouteActivity extends AppCompatActivity implements AdapterView.
 
         editText = (EditText) findViewById(R.id.editTextSearch);
 
-        listViewResultAdapter = new ListViewResultAdapter();
+        listViewRoutesAdapter = new ListViewRoutesAdapter();
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        RouteItemListView item = (RouteItemListView) this.listViewResultAdapter.getItem(position);
-        Toast.makeText(this, "Click: " + item.getId() + " = " + item.getText(), Toast.LENGTH_SHORT).show();
+        Route item = (Route) this.listViewRoutesAdapter.getItem(position);
+        Toast.makeText(this, "Click: " + item.getId() + " = " + item.getLongName(), Toast.LENGTH_SHORT).show();
 
         callDetailsRouteActivity(item);
     }
 
-    private void callDetailsRouteActivity(RouteItemListView item) {
+    private void callDetailsRouteActivity(Route item) {
         Intent it = new Intent(this, DetailsRouteActivity.class);
         Integer routeId = item.getId();
-        it.putExtra("RouteId", routeId.toString());
-        it.putExtra("RouteName", item.getText());
+        it.putExtra("routeId", routeId.toString());
+        it.putExtra("routeName", item.getLongName());
 
         startActivityForResult(it, 1);
     }
@@ -82,13 +76,34 @@ public class ListRouteActivity extends AppCompatActivity implements AdapterView.
                 getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
-            FindRoutesRest findRoutesRest = new FindRoutesRest(this, restConfiguration.getUser(), restConfiguration.getPassword(), editText.getText().toString(),
-                    this.listView, this.listViewResultAdapter);
+
+            RestConfiguration restConfiguration = new RestConfiguration(this);
+
+            try {
+                restConfiguration.readProperties();
+            } catch (IOException e) {
+                showMessageToast("Properties not found.");
+                return;
+            }
+
+            FindRoutesRest findRoutesRest = new FindRoutesRest(this, restConfiguration.getUser(), restConfiguration.getPassword(), editText.getText().toString());
+
             findRoutesRest.execute(restConfiguration.getUrlFindRoutes());
         } else {
-            Toast.makeText(this, "No network connection available.", Toast.LENGTH_LONG).show();
+            showMessageToast("No network connection available.");
         }
     }
 
+    @Override
+    public void processFinish(ArrayList items) {
+        listViewRoutesAdapter.setItems(items);
+        listViewRoutesAdapter.setMInflater(this);
 
+        listView.setAdapter(listViewRoutesAdapter);
+    }
+
+    @Override
+    public void showMessageToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+    }
 }

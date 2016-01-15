@@ -1,4 +1,4 @@
-package com.arctouch.floripapublictransportation.classes;
+package com.arctouch.floripapublictransportation.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,21 +10,22 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import com.arctouch.floripapublictransportation.R;
+import com.arctouch.floripapublictransportation.entity.Route;
 
 /**
  * Created by GabrielPacheco on 05/01/2016.
  */
-public class ListViewResultAdapter extends BaseAdapter{
+public class ListViewRoutesAdapter extends BaseAdapter{
 
     private LayoutInflater mInflater;
-    private ArrayList<RouteItemListView> items;
+    private ArrayList<Route> items;
 
-    public ListViewResultAdapter(Context context, ArrayList<RouteItemListView> items) {
+    public ListViewRoutesAdapter(Context context, ArrayList<Route> items) {
         this.items = items;
         this.mInflater = LayoutInflater.from(context);
     }
 
-    public ListViewResultAdapter() {
+    public ListViewRoutesAdapter() {
     }
 
 
@@ -45,11 +46,11 @@ public class ListViewResultAdapter extends BaseAdapter{
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        RouteItemListView item = items.get(position);
+        Route item = items.get(position);
 
         convertView = mInflater.inflate(R.layout.item_list_result, null);
 
-        ((TextView) convertView.findViewById(R.id.textView)).setText(item.getText());
+        ((TextView) convertView.findViewById(R.id.textView)).setText(item.getLongName());
 
         return convertView;
     }
@@ -58,7 +59,7 @@ public class ListViewResultAdapter extends BaseAdapter{
         this.mInflater = LayoutInflater.from(context);
     }
 
-    public void setItems(ArrayList<RouteItemListView> items) {
+    public void setItems(ArrayList<Route> items) {
         this.items = items;
     }
 }
