@@ -237,7 +237,7 @@ public class DetailsRouteActivity extends AppCompatActivity implements AsyncResp
             int childrenCount = 0;
             for (int i = 0; i < mListAdapter.getGroupCount(); i++) {
                 count++;
-                View listItem = mListAdapter.getGroupView(i, true, mListView, null);
+                View listItem = mListAdapter.getGroupView(i, true, null, null);
                 listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
                 height += listItem.getMeasuredHeight();
                 childrenCount = mListAdapter.getChildrenCount(i);

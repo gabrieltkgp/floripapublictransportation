@@ -36,29 +36,32 @@ public class ExpandableListViewDetailAdapter extends BaseExpandableListAdapter {
         for(int i = 0; i < items.size(); i++) {
             departure = items.get(i);
 
-            if (calendar.toString() != departure.getCalendar().toString()){
+            if (!calendar.toString().equals(departure.getCalendar().toString())){
                 calendar = departure.getCalendar();
-                itemsCalendar.add(departure.getCalendar());
+                itemsCalendar.add(calendar);
             }
         }
 
+        List<Departure> itemsDeparture = new ArrayList<>();
         calendar = items.get(0).getCalendar();
 
-        List<Departure> itemsDeparture = new ArrayList<>();
-
-        for(int i = 0; i < items.size(); i++) {
+        int i=0;
+        do {
             departure = items.get(i);
 
-            itemsDeparture.add(departure);
-
-            if (calendar.toString() != departure.getCalendar().toString()) {
+            if (calendar.toString().equals(departure.getCalendar().toString())){
+                itemsDeparture.add(departure);
+                i++;
+            } else {
                 subItemsCalendar.add(itemsDeparture);
 
                 itemsDeparture = new ArrayList<>();
 
                 calendar = departure.getCalendar();
             }
-        }
+        }while(i < items.size());
+
+        subItemsCalendar.add(itemsDeparture);
     }
 
     @Override
@@ -68,7 +71,12 @@ public class ExpandableListViewDetailAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return ((ArrayList<String>) subItemsCalendar.get(groupPosition)).size();
+        if (groupPosition >= subItemsCalendar.size())
+            return 0;
+
+        ArrayList<String> subItem = (ArrayList<String>) subItemsCalendar.get(groupPosition);
+
+        return subItem.size();
     }
 
     @Override
