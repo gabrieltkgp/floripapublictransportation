@@ -17,10 +17,10 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.arctouch.floripapublictransportation.R;
-import com.arctouch.floripapublictransportation.classes.FindRoutesRest;
-import com.arctouch.floripapublictransportation.classes.RestConfiguration;
-import com.arctouch.floripapublictransportation.entity.Route;
-import com.arctouch.floripapublictransportation.adapter.ListViewRoutesAdapter;
+import com.arctouch.floripapublictransportation.components.FindRoutesRest;
+import com.arctouch.floripapublictransportation.components.RestConfiguration;
+import com.arctouch.floripapublictransportation.entities.Route;
+import com.arctouch.floripapublictransportation.adapters.ListViewRoutesAdapter;
 import com.arctouch.floripapublictransportation.interfaces.AsyncResponse;
 
 import java.io.IOException;
@@ -95,7 +95,7 @@ public class ListRouteActivity extends AppCompatActivity implements AdapterView.
     }
 
     @Override
-    public void processFinish(ArrayList items) {
+    public void processFinish(ArrayList items, String param) {
         listViewRoutesAdapter.setItems(items);
         listViewRoutesAdapter.setMInflater(this);
 

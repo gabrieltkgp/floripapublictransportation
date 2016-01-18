@@ -6,6 +6,6 @@ import java.util.ArrayList;
  * Created by GabrielPacheco on 15/01/2016.
  */
 public interface AsyncResponse {
-    void processFinish(ArrayList items);
+    void processFinish(ArrayList items, String param);
     void showMessageToast(String message);
 }

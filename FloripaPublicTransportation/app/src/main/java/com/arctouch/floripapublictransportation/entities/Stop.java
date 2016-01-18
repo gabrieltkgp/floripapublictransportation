@@ -1,4 +1,4 @@
-package com.arctouch.floripapublictransportation.entity;
+package com.arctouch.floripapublictransportation.entities;
 
 /**
  * Created by GabrielPacheco on 14/01/2016.

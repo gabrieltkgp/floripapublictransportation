@@ -20,8 +20,8 @@
         android:singleLine="true" />
 
     <ImageButton
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:text="Search"
         android:id="@+id/buttonSearch"
         android:layout_below="@+id/editTextSearch"

@@ -1,4 +1,4 @@
-package com.arctouch.floripapublictransportation.adapter;
+package com.arctouch.floripapublictransportation.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,8 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.arctouch.floripapublictransportation.R;
-import com.arctouch.floripapublictransportation.entity.Route;
-import com.arctouch.floripapublictransportation.entity.Stop;
+import com.arctouch.floripapublictransportation.entities.Stop;
 
 import java.util.ArrayList;
 

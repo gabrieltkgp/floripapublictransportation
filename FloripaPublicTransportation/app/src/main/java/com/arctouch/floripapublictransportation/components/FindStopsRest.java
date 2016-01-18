@@ -1,7 +1,6 @@
-package com.arctouch.floripapublictransportation.classes;
+package com.arctouch.floripapublictransportation.components;
 
-import com.arctouch.floripapublictransportation.entity.Route;
-import com.arctouch.floripapublictransportation.entity.Stop;
+import com.arctouch.floripapublictransportation.entities.Stop;
 import com.arctouch.floripapublictransportation.interfaces.AsyncResponse;
 
 import org.json.JSONArray;
@@ -44,5 +43,10 @@ public class FindStopsRest extends RestConnection{
     @Override
     protected String getJsonParams(){
         return "{ \"params\": { \"routeId\": " + getQuery() + " } }";
+    }
+
+    @Override
+    protected void processFinish(ArrayList items){
+        getDelegate().processFinish(items, "STOP");
     }
 }

@@ -1,7 +1,6 @@
-package com.arctouch.floripapublictransportation.classes;
+package com.arctouch.floripapublictransportation.components;
 
 import android.content.Context;
-import android.widget.Toast;
 
 import com.arctouch.floripapublictransportation.R;
 

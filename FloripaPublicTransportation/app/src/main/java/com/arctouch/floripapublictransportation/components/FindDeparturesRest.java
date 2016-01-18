@@ -1,6 +1,6 @@
-package com.arctouch.floripapublictransportation.classes;
+package com.arctouch.floripapublictransportation.components;
 
-import com.arctouch.floripapublictransportation.entity.Route;
+import com.arctouch.floripapublictransportation.entities.Departure;
 import com.arctouch.floripapublictransportation.interfaces.AsyncResponse;
 
 import org.json.JSONArray;
@@ -10,18 +10,17 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 /**
- * Created by GabrielPacheco on 12/01/2016.
+ * Created by GabrielPacheco on 14/01/2016.
  */
-public class FindRoutesRest extends RestConnection {
+public class FindDeparturesRest extends RestConnection{
 
-    public FindRoutesRest(AsyncResponse delegate, String user, String password, String query) {
+    public FindDeparturesRest(AsyncResponse delegate, String user, String password, String query) {
         super(delegate, user, password, query);
     }
 
     @Override
     protected ArrayList parseJson(String jsonResult) {
-
-        ArrayList<Route> items = new ArrayList();
+        ArrayList<Departure> items = new ArrayList();
 
         try {
             JSONObject json = new JSONObject(jsonResult);
@@ -30,7 +29,7 @@ public class FindRoutesRest extends RestConnection {
             for (int i = 0; i < rows.length(); i++) {
                 JSONObject obj = rows.getJSONObject(i);
 
-                Route item = new Route(obj.getInt("id"), obj.getString("shortName"), obj.getString("longName"), obj.getString("lastModifiedDate"), obj.getInt("agencyId"));
+                Departure item = new Departure(obj.getInt("id"), obj.getString("calendar"), obj.getString("time"));
 
                 items.add(item);
             }
@@ -43,6 +42,11 @@ public class FindRoutesRest extends RestConnection {
 
     @Override
     protected String getJsonParams(){
-        return "{ \"params\": { \"stopName\": \"%" + getQuery() + "%\" } }";
+        return "{ \"params\": { \"routeId\": " + getQuery() + " } }";
+    }
+
+    @Override
+    protected void processFinish(ArrayList items){
+        getDelegate().processFinish(items, "DEPARTURE");
     }
 }

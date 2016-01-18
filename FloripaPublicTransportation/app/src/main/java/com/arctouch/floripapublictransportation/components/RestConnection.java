@@ -1,4 +1,4 @@
-package com.arctouch.floripapublictransportation.classes;
+package com.arctouch.floripapublictransportation.components;
 
 import android.os.AsyncTask;
 import android.util.Base64;
@@ -122,7 +122,7 @@ public class RestConnection extends AsyncTask<String, Void, String> {
     protected void onPostExecute(String res) {
         ArrayList items = parseJson(res);
 
-        delegate.processFinish(items);
+        processFinish(items);
     }
 
     //this method has to be inherited on child classes.
@@ -133,6 +133,10 @@ public class RestConnection extends AsyncTask<String, Void, String> {
     //this method has to be inherited on child classes.
     protected ArrayList parseJson(String jsonResult) {
         return null;
+    }
+
+    protected void processFinish(ArrayList items){
+        return;
     }
 
     //public methods

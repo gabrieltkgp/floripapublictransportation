@@ -25,32 +25,48 @@
         android:layout_below="@+id/textViewRoute"
         android:fillViewport="true">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Stops"
+                android:id="@+id/textViewStops"
+                android:layout_gravity="center_horizontal"/>
 
             <ListView
                 android:id="@+id/listViewStops"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dip"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Departures"
+                android:id="@+id/textViewTimeTable"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dip"/>
 
             <ExpandableListView
                 android:id="@+id/expandableListViewTimetable"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/listViewStops" />
+                android:layout_marginTop="5dip" />
 
             <ImageButton
                 android:id="@+id/buttonBack"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_below="@+id/expandableListViewTimetable"
-                android:layout_centerHorizontal="true"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:background="@mipmap/back"
                 android:onClick="onButtonBackClick"
-                android:text="Back" />
+                android:text="Back"
+                android:layout_gravity="center_horizontal"/>
 
-        </RelativeLayout>
+        </LinearLayout>
     </ScrollView>
 
 </RelativeLayout>
