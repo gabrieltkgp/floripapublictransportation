@@ -51,11 +51,65 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="5dip"/>
 
-            <ExpandableListView
-                android:id="@+id/expandableListViewTimetable"
-                android:layout_width="match_parent"
+            <!--<ExpandableListView-->
+                <!--android:id="@+id/expandableListViewTimetable"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="5dip" />-->
+
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dip" />
+                android:text="Weekday"
+                android:id="@+id/textViewWeekday"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dip"/>
+
+            <GridView
+                android:id="@+id/gridViewWeekday"
+                android:numColumns="auto_fit"
+                android:gravity="center"
+                android:columnWidth="60dp"
+                android:stretchMode="columnWidth"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+            </GridView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Saturday"
+                android:id="@+id/textViewSaturday"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dip"/>
+
+            <GridView
+                android:id="@+id/gridViewSaturday"
+                android:numColumns="auto_fit"
+                android:gravity="center"
+                android:columnWidth="60dp"
+                android:stretchMode="columnWidth"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+            </GridView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sunday"
+                android:id="@+id/textViewSunday"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dip"/>
+
+            <GridView
+                android:id="@+id/gridViewSunday"
+                android:numColumns="auto_fit"
+                android:gravity="center"
+                android:columnWidth="60dp"
+                android:stretchMode="columnWidth"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+            </GridView>
 
             <ImageButton
                 android:id="@+id/buttonBack"

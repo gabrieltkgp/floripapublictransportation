@@ -9,8 +9,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.GridView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -22,11 +24,13 @@ import com.arctouch.floripapublictransportation.adapters.ListViewStopsAdapter;
 import com.arctouch.floripapublictransportation.components.FindDeparturesRest;
 import com.arctouch.floripapublictransportation.components.FindStopsRest;
 import com.arctouch.floripapublictransportation.components.RestConfiguration;
+import com.arctouch.floripapublictransportation.entities.Departure;
 import com.arctouch.floripapublictransportation.entities.Stop;
 import com.arctouch.floripapublictransportation.interfaces.AsyncResponse;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class DetailsRouteActivity extends AppCompatActivity implements AsyncResponse {
@@ -71,7 +75,7 @@ public class DetailsRouteActivity extends AppCompatActivity implements AsyncResp
 
     private void initializeComponents() {
         listView = (ListView) findViewById(R.id.listViewStops);
-        expandableListViewTimetable = (ExpandableListView)findViewById(R.id.expandableListViewTimetable);
+        //expandableListViewTimetable = (ExpandableListView) findViewById(R.id.expandableListViewTimetable);
         //listView.setOnItemClickListener(this);
         listView.setCacheColorHint(Color.TRANSPARENT);
 
@@ -128,7 +132,7 @@ public class DetailsRouteActivity extends AppCompatActivity implements AsyncResp
 
     @Override
     public void processFinish(ArrayList items, String param) {
-        if (param == "STOP") {
+        if (param.equals("STOP")) {
             listViewStopsAdapter.setItems(items);
             listViewStopsAdapter.setMInflater(this);
 
@@ -136,18 +140,66 @@ public class DetailsRouteActivity extends AppCompatActivity implements AsyncResp
 
             ListUtils.setDynamicHeight(listView);
 
-        } else if (param == "DEPARTURE") {
-            expandableListViewDetailAdapter.setContext(this);
-            expandableListViewDetailAdapter.buildExpandableListView(items);
+        } else if (param.equals("DEPARTURE")) {
+//            expandableListViewDetailAdapter.setContext(this);
+//            expandableListViewDetailAdapter.buildExpandableListView(items);
+//
+//            expandableListViewTimetable.setAdapter(expandableListViewDetailAdapter);
+//
+//            ListUtils.setDynamicHeight2(expandableListViewTimetable);
+//
+//            for (int i = 0; i < expandableListViewDetailAdapter.getGroupCount(); i++) {
+//                expandableListViewTimetable.expandGroup(i);
+//            }
 
-            expandableListViewTimetable.setAdapter(expandableListViewDetailAdapter);
+            buildGridViewWeekDay((GridView) findViewById(R.id.gridViewWeekday), items, "WEEKDAY");
+            buildGridViewWeekDay((GridView) findViewById(R.id.gridViewSaturday), items, "SATURDAY");
+            buildGridViewWeekDay((GridView) findViewById(R.id.gridViewSunday), items, "SUNDAY");
+        }
+    }
 
-            ListUtils.setDynamicHeight2(expandableListViewTimetable);
+    public void buildGridViewWeekDay(GridView gridView, ArrayList<Departure> items, String calendar) {
+        String[] time;
 
-            for (int i = 0; i < expandableListViewDetailAdapter.getGroupCount(); i++) {
-                expandableListViewTimetable.expandGroup(i);
+        String calendarCompare = "";
+
+        int initialPosition = -1;
+
+        for (Departure departure : items) {
+            initialPosition++;
+            if (departure.getCalendar().equals(calendar)) {
+                break;
             }
         }
+
+        int finalPosition = initialPosition;
+
+        Departure departure;
+        while(finalPosition < items.size()){
+            departure = items.get(finalPosition);
+
+            if(!departure.getCalendar().equals(calendar)){
+                break;
+            }
+
+            finalPosition++;
+        }
+
+        finalPosition--;
+
+        int arraySize = finalPosition - initialPosition + 1;
+
+        time = new String[arraySize];
+
+        for (int i = 0; i < arraySize; i++) {
+            departure = items.get(initialPosition + i);
+            time[i] = departure.getTime().toString();
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_1, time);
+
+        gridView.setAdapter(adapter);
     }
 
     @Override
@@ -155,55 +207,6 @@ public class DetailsRouteActivity extends AppCompatActivity implements AsyncResp
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
-    private void createExpandableListView() {
-        //expandableListViewTimetable = (ExpandableListView) findViewById(R.id.expandableListViewTimetable);
-
-//        Stop stop1 = new Stop(1, "teste1", 1, 1);
-//        itemsStops.add(stop1);
-//
-//        Stop stop2 = new Stop(2, "teste1", 1, 1);
-//        itemsStops.add(stop2);
-//
-//       /* Stop stopItemExpandableListView3 = new Stop();
-//        stopItemExpandableListView3.setId(3);
-//        stopItemExpandableListView3.setName("teste3");
-//        itemsStops.add(stopItemExpandableListView3);*/
-//
-//        List<Departure> subItemsDeparture = new ArrayList<>();
-//
-//        Departure departureSubItemExpandableListView1 = new Departure();
-//        departureSubItemExpandableListView1.setTime("06:00");
-//        departureSubItemExpandableListView1.setCalendar("WEEKDAY");
-//        subItemsDeparture.add(departureSubItemExpandableListView1);
-//
-//        DepartureSubItemExpandableListView departureSubItemExpandableListView2 = new DepartureSubItemExpandableListView();
-//        departureSubItemExpandableListView2.setDepartureTime("07:00");
-//        departureSubItemExpandableListView2.setDepartureCalendar("SATURDAY");
-//        subItemsDeparture.add(departureSubItemExpandableListView2);
-//
-//        DepartureSubItemExpandableListView departureSubItemExpandableListView3 = new DepartureSubItemExpandableListView();
-//        departureSubItemExpandableListView3.setDepartureTime("08:00");
-//        departureSubItemExpandableListView3.setDepartureCalendar("SUNDAY");
-//        subItemsDeparture.add(departureSubItemExpandableListView3);
-//
-//        subItemsStops.add(subItemsDeparture);
-//
-//        List<DepartureSubItemExpandableListView> subItemsDeparture2 = new ArrayList<>();
-//
-//        DepartureSubItemExpandableListView departureSubItemExpandableListView4 = new DepartureSubItemExpandableListView();
-//        departureSubItemExpandableListView4.setDepartureTime("10:00");
-//        departureSubItemExpandableListView4.setDepartureCalendar("SUNDAY");
-//        subItemsDeparture2.add(departureSubItemExpandableListView4);
-//
-//        subItemsStops.add(subItemsDeparture2);
-
-//        ExpandableListViewDetailAdapter adapter = new ExpandableListViewDetailAdapter(getBaseContext(), itemsStops, subItemsStops);
-//        expandableListViewTimetable.setAdapter(adapter);
-//
-//        for ( int i = 0; i < adapter.getGroupCount(); i++ ) {
-//            expandableListViewTimetable.expandGroup(i);
-//        }
-    }
 
     public static class ListUtils {
         public static void setDynamicHeight(ListView mListView) {
