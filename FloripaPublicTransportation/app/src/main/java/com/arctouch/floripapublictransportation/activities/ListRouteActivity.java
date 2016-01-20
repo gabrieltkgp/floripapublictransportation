@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.arctouch.floripapublictransportation.R;
 import com.arctouch.floripapublictransportation.components.FindRoutesRest;
 import com.arctouch.floripapublictransportation.components.RestConfiguration;
+import com.arctouch.floripapublictransportation.controller.ListRouteController;
 import com.arctouch.floripapublictransportation.entities.Route;
 import com.arctouch.floripapublictransportation.adapters.ListViewRoutesAdapter;
 import com.arctouch.floripapublictransportation.interfaces.AsyncResponse;
@@ -31,6 +32,8 @@ public class ListRouteActivity extends AppCompatActivity implements AdapterView.
     private ListView listView;
     private ListViewRoutesAdapter listViewRoutesAdapter;
     private EditText editText;
+    private ListRouteController listRouteController;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +41,8 @@ public class ListRouteActivity extends AppCompatActivity implements AdapterView.
         setContentView(R.layout.activity_list);
 
         initializeComponents();
+
+        listRouteController = new ListRouteController(this);
     }
 
     private void initializeComponents(){
@@ -58,7 +63,7 @@ public class ListRouteActivity extends AppCompatActivity implements AdapterView.
         callDetailsRouteActivity(item);
     }
 
-    private void callDetailsRouteActivity(Route item) {
+    public void callDetailsRouteActivity(Route item) {
         Intent it = new Intent(this, DetailsRouteActivity.class);
         Integer routeId = item.getId();
         it.putExtra("routeId", routeId.toString());
@@ -68,7 +73,7 @@ public class ListRouteActivity extends AppCompatActivity implements AdapterView.
     }
 
     public void onButtonClick(View v){
-        executeTestNetwork();
+        listRouteController.executeTestNetwork(editText.getText().toString());
     }
 
     public void executeTestNetwork(){

@@ -9,10 +9,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
-import android.widget.ExpandableListAdapter;
-import android.widget.ExpandableListView;
 import android.widget.GridView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -20,7 +16,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.arctouch.floripapublictransportation.R;
-import com.arctouch.floripapublictransportation.adapters.ExpandableListViewDetailAdapter;
 import com.arctouch.floripapublictransportation.adapters.GridViewDepartureAdapter;
 import com.arctouch.floripapublictransportation.adapters.ListViewStopsAdapter;
 import com.arctouch.floripapublictransportation.components.FindDeparturesRest;
@@ -33,7 +28,6 @@ import com.arctouch.floripapublictransportation.tools.ProcessDeparture;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class DetailsRouteActivity extends AppCompatActivity implements AsyncResponse {
@@ -45,9 +39,7 @@ public class DetailsRouteActivity extends AppCompatActivity implements AsyncResp
     private List<Object> subItemsStops = new ArrayList<>();
 
     private ListViewStopsAdapter listViewStopsAdapter;
-    private ListView listView;
-    private ExpandableListView expandableListViewTimetable;
-    private ExpandableListViewDetailAdapter expandableListViewDetailAdapter;
+    private ListView listViewStop;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,14 +69,10 @@ public class DetailsRouteActivity extends AppCompatActivity implements AsyncResp
     }
 
     private void initializeComponents() {
-        listView = (ListView) findViewById(R.id.listViewStops);
-        //expandableListViewTimetable = (ExpandableListView) findViewById(R.id.expandableListViewTimetable);
-        //listView.setOnItemClickListener(this);
-        listView.setCacheColorHint(Color.TRANSPARENT);
+        listViewStop = (ListView) findViewById(R.id.listViewStops);
+        listViewStop.setCacheColorHint(Color.TRANSPARENT);
 
         listViewStopsAdapter = new ListViewStopsAdapter();
-
-        expandableListViewDetailAdapter = new ExpandableListViewDetailAdapter();
     }
 
     public void executeTestNetwork() {
@@ -136,25 +124,60 @@ public class DetailsRouteActivity extends AppCompatActivity implements AsyncResp
     @Override
     public void processFinish(ArrayList items, String param) {
         if (param.equals("STOP")) {
-            listViewStopsAdapter.setItems(items);
-            listViewStopsAdapter.setMInflater(this);
-
-            listView.setAdapter(listViewStopsAdapter);
-
-            ListUtils.setDynamicHeight(listView);
-
+            configureListViewStop(items);
         } else if (param.equals("DEPARTURE")) {
-            GridView gridView = (GridView) findViewById(R.id.gridViewWeekday);
-            GridViewDepartureAdapter gridViewDepartureAdapter = new GridViewDepartureAdapter(this);
-
-            ProcessDeparture processDeparture = new ProcessDeparture();
-            ArrayList<Departure> itemsWeekDay = processDeparture.createArrayListDepartureWeekDay(items);
-            gridViewDepartureAdapter.createArray(itemsWeekDay);
-
-            gridView.setAdapter(gridViewDepartureAdapter);
-
-            ListUtils.setDynamicHeightGridView(gridView);
+            configureGridViewWeekDay(items);
+            configureGridViewSaturday(items);
+            configureGridViewSunday(items);
         }
+    }
+
+    private void configureListViewStop(ArrayList items) {
+        listViewStopsAdapter.setItems(items);
+        listViewStopsAdapter.setMInflater(this);
+
+        listViewStop.setAdapter(listViewStopsAdapter);
+
+        ListUtils.setDynamicHeight(listViewStop);
+    }
+
+    private void configureGridViewWeekDay(ArrayList items) {
+        GridView gridView = (GridView) findViewById(R.id.gridViewWeekday);
+        GridViewDepartureAdapter gridViewDepartureAdapter = new GridViewDepartureAdapter(this);
+
+        ProcessDeparture processDeparture = new ProcessDeparture();
+        ArrayList<Departure> itemsDay = processDeparture.createArrayListDepartureWeekDay(items);
+        gridViewDepartureAdapter.createArray(itemsDay);
+
+        gridView.setAdapter(gridViewDepartureAdapter);
+
+        ListUtils.setDynamicHeightGridView(gridView);
+    }
+
+    private void configureGridViewSaturday(ArrayList items) {
+        GridView gridView = (GridView) findViewById(R.id.gridViewSaturday);
+        GridViewDepartureAdapter gridViewDepartureAdapter = new GridViewDepartureAdapter(this);
+
+        ProcessDeparture processDeparture = new ProcessDeparture();
+        ArrayList<Departure> itemsDay = processDeparture.createArrayListDepartureSaturday(items);
+        gridViewDepartureAdapter.createArray(itemsDay);
+
+        gridView.setAdapter(gridViewDepartureAdapter);
+
+        ListUtils.setDynamicHeightGridView(gridView);
+    }
+
+    private void configureGridViewSunday(ArrayList items) {
+        GridView gridView = (GridView) findViewById(R.id.gridViewSunday);
+        GridViewDepartureAdapter gridViewDepartureAdapter = new GridViewDepartureAdapter(this);
+
+        ProcessDeparture processDeparture = new ProcessDeparture();
+        ArrayList<Departure> itemsDay = processDeparture.createArrayListDepartureSunday(items);
+        gridViewDepartureAdapter.createArray(itemsDay);
+
+        gridView.setAdapter(gridViewDepartureAdapter);
+
+        ListUtils.setDynamicHeightGridView(gridView);
     }
 
     @Override
@@ -183,35 +206,6 @@ public class DetailsRouteActivity extends AppCompatActivity implements AsyncResp
             mListView.requestLayout();
         }
 
-        public static void setDynamicHeight2(ExpandableListView mListView) {
-            ExpandableListAdapter mListAdapter = mListView.getExpandableListAdapter();
-            if (mListAdapter == null) {
-                // when adapter is null
-                return;
-            }
-            int height = 0;
-            int desiredWidth = View.MeasureSpec.makeMeasureSpec(mListView.getWidth(), View.MeasureSpec.UNSPECIFIED);
-            int count = 0;
-            int childrenCount = 0;
-            for (int i = 0; i < mListAdapter.getGroupCount(); i++) {
-                count++;
-                View listItem = mListAdapter.getGroupView(i, true, null, null);
-                listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
-                height += listItem.getMeasuredHeight();
-                childrenCount = mListAdapter.getChildrenCount(i);
-                for (int j = 0; j < childrenCount; j++) {
-                    count++;
-                    View listItem2 = mListAdapter.getChildView(i, j, false, null, null);
-                    listItem2.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
-                    height += listItem2.getMeasuredHeight();
-                }
-            }
-            ViewGroup.LayoutParams params = mListView.getLayoutParams();
-            params.height = height + (mListView.getDividerHeight() * (count - 1));
-            mListView.setLayoutParams(params);
-            mListView.requestLayout();
-        }
-
         public static void setDynamicHeightGridView(GridView gridView) {
             ListAdapter gridViewAdapter = gridView.getAdapter();
 
@@ -228,14 +222,12 @@ public class DetailsRouteActivity extends AppCompatActivity implements AsyncResp
             double result = count / columns;
             int nNumLines = (int) Math.ceil(result);
 
-            for (int i = 0; i < nNumLines; i++) {
-                View listItem = gridViewAdapter.getView(i * gridView.getNumColumns(), null, gridView);
-                listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
-                height += listItem.getMeasuredHeight();
-            }
+            View listItem = gridViewAdapter.getView(1, null, gridView);
+            listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+            height = listItem.getMeasuredHeight() * (nNumLines + 1);
+
             ViewGroup.LayoutParams params = gridView.getLayoutParams();
-            params.height = height + (gridView.getMeasuredHeight() * (nNumLines - 1));
-            //params.height = height;
+            params.height = height;
             gridView.setLayoutParams(params);
             gridView.requestLayout();
         }

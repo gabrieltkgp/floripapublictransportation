@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_material_dark"
+    android:background="@color/background_floating_material_dark"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -33,37 +33,33 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Stops"
+                android:text="STOPS"
                 android:id="@+id/textViewStops"
-                android:layout_gravity="center_horizontal"/>
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dip"
+                android:textColor="#000000" />
 
             <ListView
                 android:id="@+id/listViewStops"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dip"/>
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Departures"
+                android:text="DEPARTURES"
                 android:id="@+id/textViewTimeTable"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="5dip"/>
-
-            <!--<ExpandableListView-->
-                <!--android:id="@+id/expandableListViewTimetable"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginTop="5dip" />-->
+                android:layout_marginTop="5dip"
+                android:textColor="#000000" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Weekday"
+                android:text="WEEKDAY"
                 android:id="@+id/textViewWeekday"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="5dip"/>
+                android:textColor="#000000" />
 
             <GridView
                 android:id="@+id/gridViewWeekday"
@@ -78,10 +74,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Saturday"
+                android:text="SATURDAY"
                 android:id="@+id/textViewSaturday"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="5dip"/>
+                android:textColor="#000000" />
 
             <GridView
                 android:id="@+id/gridViewSaturday"
@@ -96,10 +92,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sunday"
+                android:text="SUNDAY"
                 android:id="@+id/textViewSunday"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="5dip"/>
+                android:textColor="#000000" />
 
             <GridView
                 android:id="@+id/gridViewSunday"
@@ -118,7 +114,7 @@
                 android:background="@mipmap/back"
                 android:onClick="onButtonBackClick"
                 android:text="Back"
-                android:layout_gravity="center_horizontal"/>
+                android:layout_gravity="center_horizontal" />
 
         </LinearLayout>
     </ScrollView>
