@@ -35,7 +35,7 @@ public class FindDeparturesRest extends RestConnection{
                 items.add(item);
             }
         } catch (JSONException e) {
-            getDelegate().showMessageToast("Error to parse json.");
+            getDelegate().showMessage("Error to parse json.");
         }
 
         return items;

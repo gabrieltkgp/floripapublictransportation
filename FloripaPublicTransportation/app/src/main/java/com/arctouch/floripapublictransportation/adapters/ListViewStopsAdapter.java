@@ -20,14 +20,9 @@ public class ListViewStopsAdapter extends BaseAdapter{
     private LayoutInflater mInflater;
     private ArrayList<Stop> items;
 
-    public ListViewStopsAdapter(Context context, ArrayList<Stop> items) {
-        this.items = items;
+    public ListViewStopsAdapter(Context context) {
         this.mInflater = LayoutInflater.from(context);
     }
-
-    public ListViewStopsAdapter() {
-    }
-
 
     @Override
     public int getCount() {
@@ -48,7 +43,7 @@ public class ListViewStopsAdapter extends BaseAdapter{
     public View getView(int position, View convertView, ViewGroup parent) {
         Stop item = items.get(position);
 
-        convertView = mInflater.inflate(R.layout.item_list_result, null);
+        convertView = mInflater.inflate(R.layout.item_list_route, null);
 
         ((TextView) convertView.findViewById(R.id.textView)).setText(item.getName());
 

@@ -9,5 +9,5 @@ import java.util.ArrayList;
  */
 public interface AsyncResponse {
     void processFinish(ArrayList items, RestType restType);
-    void showMessageToast(String message);
+    void showMessage(String message);
 }

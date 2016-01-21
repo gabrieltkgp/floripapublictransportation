@@ -1,17 +1,19 @@
 package com.arctouch.floripapublictransportation.entities;
 
+import java.io.Serializable;
+
 /**
  * Created by GabrielPacheco on 05/01/2016.
  */
-public class Route {
+public class Route implements Serializable{
 
-    private int id;
+    private Integer id;
     private String shortName;
     private String longName;
     private String lastModifiedDate;
-    private int agencyId;
+    private Integer agencyId;
 
-    public Route(int id, String shortName, String longName, String lastModifiedDate, int agencyId) {
+    public Route(Integer id, String shortName, String longName, String lastModifiedDate, Integer agencyId) {
         this.id = id;
         this.shortName = shortName;
         this.longName = longName;
@@ -19,11 +21,11 @@ public class Route {
         this.agencyId = agencyId;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -51,11 +53,11 @@ public class Route {
         this.lastModifiedDate = lastModifiedDate;
     }
 
-    public int getAgencyId() {
+    public Integer getAgencyId() {
         return agencyId;
     }
 
-    public void setAgencyId(int agencyId) {
+    public void setAgencyId(Integer agencyId) {
         this.agencyId = agencyId;
     }
 }

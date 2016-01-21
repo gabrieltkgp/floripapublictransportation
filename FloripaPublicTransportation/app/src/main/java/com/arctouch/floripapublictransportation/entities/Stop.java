@@ -4,23 +4,23 @@ package com.arctouch.floripapublictransportation.entities;
  * Created by GabrielPacheco on 14/01/2016.
  */
 public class Stop {
-    private int id;
+    private Integer id;
     private String name;
-    private int sequence;
-    private int routeId;
+    private Integer sequence;
+    private Integer routeId;
 
-    public Stop(int id, String name, int sequence, int routeId) {
+    public Stop(Integer id, String name, Integer sequence, Integer routeId) {
         this.id = id;
         this.name = name;
         this.sequence = sequence;
         this.routeId = routeId;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -32,19 +32,19 @@ public class Stop {
         this.name = name;
     }
 
-    public int getSequence() {
+    public Integer getSequence() {
         return sequence;
     }
 
-    public void setSequence(int sequence) {
+    public void setSequence(Integer sequence) {
         this.sequence = sequence;
     }
 
-    public int getRouteId() {
+    public Integer getRouteId() {
         return routeId;
     }
 
-    public void setRouteId(int routeId) {
+    public void setRouteId(Integer routeId) {
         this.routeId = routeId;
     }
 }

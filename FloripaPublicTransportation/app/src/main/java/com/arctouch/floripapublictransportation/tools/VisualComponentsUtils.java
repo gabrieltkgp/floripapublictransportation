@@ -11,12 +11,13 @@ import android.widget.ListView;
  */
 
 public class VisualComponentsUtils {
-    public static void setDynamicHeight(ListView mListView) {
+    public static void setDynamicHeightListView(ListView mListView) {
         ListAdapter mListAdapter = mListView.getAdapter();
+
         if (mListAdapter == null) {
-            // when adapter is null
             return;
         }
+
         int height = 0;
         int desiredWidth = View.MeasureSpec.makeMeasureSpec(mListView.getWidth(), View.MeasureSpec.UNSPECIFIED);
         for (int i = 0; i < mListAdapter.getCount(); i++) {
@@ -24,6 +25,7 @@ public class VisualComponentsUtils {
             listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
             height += listItem.getMeasuredHeight();
         }
+
         ViewGroup.LayoutParams params = mListView.getLayoutParams();
         params.height = height + (mListView.getDividerHeight() * (mListAdapter.getCount() - 1));
         mListView.setLayoutParams(params);
@@ -34,7 +36,6 @@ public class VisualComponentsUtils {
         ListAdapter gridViewAdapter = gridView.getAdapter();
 
         if (gridViewAdapter == null) {
-            // when adapter is null
             return;
         }
 

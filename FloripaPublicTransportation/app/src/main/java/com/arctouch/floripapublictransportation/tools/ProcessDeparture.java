@@ -4,6 +4,7 @@ import android.widget.ArrayAdapter;
 import android.widget.GridView;
 
 import com.arctouch.floripapublictransportation.entities.Departure;
+import com.arctouch.floripapublictransportation.general.DepartureDay;
 
 import java.util.ArrayList;
 
@@ -12,16 +13,19 @@ import java.util.ArrayList;
  */
 public class ProcessDeparture {
 
-    private ArrayList<Departure> splitArrayListDepartureByDay(ArrayList<Departure> items, String calendar) {
+    private int getInitialPosition(ArrayList<Departure> items, String departureDay){
         int initialPosition = -1;
-
         for (Departure departure : items) {
             initialPosition++;
-            if (departure.getCalendar().equals(calendar)) {
+            if (departure.getCalendar().equals(departureDay)) {
                 break;
             }
         }
 
+        return initialPosition;
+    }
+
+    private int getFinalPosition(ArrayList<Departure> items, String departureDay, int initialPosition){
         int finalPosition = initialPosition;
 
         Departure departure;
@@ -29,7 +33,7 @@ public class ProcessDeparture {
         while (finalPosition < items.size()) {
             departure = items.get(finalPosition);
 
-            if (!departure.getCalendar().equals(calendar)) {
+            if (!departure.getCalendar().equals(departureDay)) {
                 break;
             }
 
@@ -37,6 +41,13 @@ public class ProcessDeparture {
         }
 
         finalPosition--;
+
+        return finalPosition;
+    }
+
+
+    private ArrayList<Departure> getArrayListByDay(ArrayList<Departure> items, int initialPosition, int finalPosition){
+        Departure departure;
 
         int arraySize = finalPosition - initialPosition + 1;
 
@@ -50,15 +61,24 @@ public class ProcessDeparture {
         return itemsByDay;
     }
 
+    private ArrayList<Departure> splitArrayListDepartureByDay(ArrayList<Departure> items, String departureDay) {
+
+        int initialPosition = getInitialPosition(items, departureDay);
+
+        int finalPosition = getFinalPosition(items, departureDay, initialPosition);
+
+        return getArrayListByDay(items, initialPosition, finalPosition);
+    }
+
     public ArrayList<Departure> createArrayListDepartureWeekDay(ArrayList<Departure> items){
-        return splitArrayListDepartureByDay(items, "WEEKDAY");
+        return splitArrayListDepartureByDay(items, DepartureDay.WEEKDAY.toString());
     }
 
     public ArrayList<Departure> createArrayListDepartureSaturday(ArrayList<Departure> items){
-        return splitArrayListDepartureByDay(items, "SATURDAY");
+        return splitArrayListDepartureByDay(items, DepartureDay.SATURDAY.toString());
     }
 
     public ArrayList<Departure> createArrayListDepartureSunday(ArrayList<Departure> items){
-        return splitArrayListDepartureByDay(items, "SUNDAY");
+        return splitArrayListDepartureByDay(items, DepartureDay.SUNDAY.toString());
     }
 }

@@ -37,7 +37,7 @@ public class ListRouteActivity extends AppCompatActivity implements AdapterView.
 
     private void createObjects(){
         controller = new ListRouteController(this);
-        listViewRoutesAdapter = new ListViewRoutesAdapter();
+        listViewRoutesAdapter = new ListViewRoutesAdapter(this);
     }
 
     private void initializeVisualComponents(){
@@ -57,7 +57,6 @@ public class ListRouteActivity extends AppCompatActivity implements AdapterView.
 
     private void defineListViewAdapter(ArrayList items){
         listViewRoutesAdapter.setItems(items);
-        listViewRoutesAdapter.setMInflater(this);
 
         listView.setAdapter(listViewRoutesAdapter);
     }
@@ -77,7 +76,7 @@ public class ListRouteActivity extends AppCompatActivity implements AdapterView.
     }
 
     @Override
-    public void showMessageToast(String message) {
+    public void showMessage(String message) {
         controller.showMessage(message);
     }
 }

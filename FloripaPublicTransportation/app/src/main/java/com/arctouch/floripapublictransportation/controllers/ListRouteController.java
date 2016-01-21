@@ -2,19 +2,15 @@ package com.arctouch.floripapublictransportation.controllers;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.arctouch.floripapublictransportation.activities.DetailsRouteActivity;
 import com.arctouch.floripapublictransportation.components.FindRoutesRest;
-import com.arctouch.floripapublictransportation.tools.RestConfiguration;
-import com.arctouch.floripapublictransportation.general.Constants;
 import com.arctouch.floripapublictransportation.entities.Route;
+import com.arctouch.floripapublictransportation.general.RestType;
 import com.arctouch.floripapublictransportation.interfaces.AsyncResponse;
+import com.arctouch.floripapublictransportation.tools.RestConfiguration;
 
-import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by GabrielPacheco on 20/01/2016.
@@ -46,10 +42,11 @@ public class ListRouteController extends BaseController{
 
     public Intent createIntentDetails(Route route){
         Intent it = new Intent(getContext(), DetailsRouteActivity.class);
-        Integer routeId = route.getId();
-        it.putExtra("routeId", routeId.toString());
-        it.putExtra("routeName", route.getLongName());
+
+        it.putExtra("route", route);
 
         return it;
     }
+
+
 }

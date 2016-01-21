@@ -20,14 +20,9 @@ public class ListViewRoutesAdapter extends BaseAdapter{
     private LayoutInflater mInflater;
     private ArrayList<Route> items;
 
-    public ListViewRoutesAdapter(Context context, ArrayList<Route> items) {
-        this.items = items;
+    public ListViewRoutesAdapter(Context context) {
         this.mInflater = LayoutInflater.from(context);
     }
-
-    public ListViewRoutesAdapter() {
-    }
-
 
     @Override
     public int getCount() {
@@ -48,7 +43,7 @@ public class ListViewRoutesAdapter extends BaseAdapter{
     public View getView(int position, View convertView, ViewGroup parent) {
         Route item = items.get(position);
 
-        convertView = mInflater.inflate(R.layout.item_list_result, null);
+        convertView = mInflater.inflate(R.layout.item_list_route, null);
 
         ((TextView) convertView.findViewById(R.id.textView)).setText(item.getLongName());
 
