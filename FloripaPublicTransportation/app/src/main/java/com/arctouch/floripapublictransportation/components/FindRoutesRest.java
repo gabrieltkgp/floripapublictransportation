@@ -1,6 +1,7 @@
 package com.arctouch.floripapublictransportation.components;
 
 import com.arctouch.floripapublictransportation.entities.Route;
+import com.arctouch.floripapublictransportation.general.RestType;
 import com.arctouch.floripapublictransportation.interfaces.AsyncResponse;
 
 import org.json.JSONArray;
@@ -48,6 +49,6 @@ public class FindRoutesRest extends RestConnection {
 
     @Override
     protected void processFinish(ArrayList items){
-        getDelegate().processFinish(items, "ROUTE");
+        getDelegate().processFinish(items, RestType.ROUTE);
     }
 }

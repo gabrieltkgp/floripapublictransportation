@@ -1,4 +1,4 @@
-package com.arctouch.floripapublictransportation.components;
+package com.arctouch.floripapublictransportation.tools;
 
 import android.content.Context;
 

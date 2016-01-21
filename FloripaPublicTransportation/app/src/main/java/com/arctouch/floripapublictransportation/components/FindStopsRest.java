@@ -1,6 +1,7 @@
 package com.arctouch.floripapublictransportation.components;
 
 import com.arctouch.floripapublictransportation.entities.Stop;
+import com.arctouch.floripapublictransportation.general.RestType;
 import com.arctouch.floripapublictransportation.interfaces.AsyncResponse;
 
 import org.json.JSONArray;
@@ -47,6 +48,6 @@ public class FindStopsRest extends RestConnection{
 
     @Override
     protected void processFinish(ArrayList items){
-        getDelegate().processFinish(items, "STOP");
+        getDelegate().processFinish(items, RestType.STOP);
     }
 }
