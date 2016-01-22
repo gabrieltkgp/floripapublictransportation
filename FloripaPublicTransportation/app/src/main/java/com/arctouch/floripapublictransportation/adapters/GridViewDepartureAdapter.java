@@ -17,22 +17,23 @@ import java.util.ArrayList;
 public class GridViewDepartureAdapter extends BaseAdapter {
 
     private Context context;
-    private String[] time;
+    private ArrayList<Departure> items;
 
-    public GridViewDepartureAdapter(Context context) {
+    public GridViewDepartureAdapter(Context context, ArrayList<Departure> items) {
         this.context = context;
+        this.items = items;
     }
 
     public int getCount() {
-        return time.length;
+        return items.size();
     }
 
     public Object getItem(int position) {
-        return null;
+        return items.get(position);
     }
 
     public long getItemId(int position) {
-        return 0;
+        return items.get(position).getId();
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -44,19 +45,12 @@ public class GridViewDepartureAdapter extends BaseAdapter {
             tv = (TextView) convertView;
         }
 
-        tv.setText(time[position]);
+        tv.setText(items.get(position).getTime().toString());
         return tv;
     }
 
-    public void createArray(ArrayList<Departure> items){
-
-        Departure departure;
-        time = new String[items.size()];
-
-        for (int i = 0; i < items.size(); i++) {
-            departure = items.get(i);
-            time[i] = departure.getTime().toString();
-        }
-
+    public void setItems(ArrayList<Departure> items) {
+        this.items = items;
     }
+
 }

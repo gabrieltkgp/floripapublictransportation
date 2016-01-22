@@ -37,25 +37,6 @@ public class RestConnection extends AsyncTask<String, Void, String> {
         return "Basic " + Base64.encodeToString(usernamePassword.getBytes(), Base64.NO_WRAP);
     }
 
-    private String downloadContent(String myUrl) throws IOException {
-        InputStream is = null;
-        URL url;
-        HttpURLConnection connection = null;
-
-        try {
-            connection = createConnection(myUrl);
-
-            sendConnectionParams(connection);
-
-            return receiveConnectionContent(connection);
-
-        } finally {
-            if (connection != null) {
-                connection.disconnect();
-            }
-        }
-    }
-
     private String receiveConnectionContent(HttpURLConnection connection) throws IOException {
         InputStream is = null;
         StringBuffer response = new StringBuffer();
@@ -81,21 +62,16 @@ public class RestConnection extends AsyncTask<String, Void, String> {
     }
 
     private void sendConnectionParams(HttpURLConnection connection) throws IOException {
-        DataOutputStream wr = null;
-
-        wr = new DataOutputStream(connection.getOutputStream());
+        DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
         wr.writeBytes(getJsonParams());
         wr.flush();
         wr.close();
     }
 
     private HttpURLConnection createConnection(String myUrl) throws IOException{
-        URL url = null;
-        HttpURLConnection connection = null;
+        URL url = new URL(myUrl);
 
-        url = new URL(myUrl);
-
-        connection = (HttpURLConnection) url.openConnection();
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
         connection.setRequestMethod("POST");
         connection.setRequestProperty("Content-Language", "en-US");
@@ -108,11 +84,28 @@ public class RestConnection extends AsyncTask<String, Void, String> {
         return connection;
     }
 
+    private String executeRequest(String myUrl) throws IOException {
+        HttpURLConnection connection = null;
+
+        try {
+            connection = createConnection(myUrl);
+
+            sendConnectionParams(connection);
+
+            return receiveConnectionContent(connection);
+
+        } finally {
+            if (connection != null) {
+                connection.disconnect();
+            }
+        }
+    }
+
     //protected methods
     @Override
     protected String doInBackground(String... url) {
         try {
-            return downloadContent(url[0]);
+            return executeRequest(url[0]);
         } catch (IOException e) {
             return "Unable to retrieve web page. URL may be invalid.";
         }
@@ -135,6 +128,7 @@ public class RestConnection extends AsyncTask<String, Void, String> {
         return null;
     }
 
+    //this method has to be inherited on child classes.
     protected void processFinish(ArrayList items){
         return;
     }

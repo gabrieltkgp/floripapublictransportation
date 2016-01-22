@@ -13,11 +13,11 @@ import java.util.ArrayList;
  */
 public class ProcessDeparture {
 
-    private int getInitialPosition(ArrayList<Departure> items, String departureDay){
+    private int getInitialPosition(ArrayList<Departure> items, DepartureDay departureDay){
         int initialPosition = -1;
         for (Departure departure : items) {
             initialPosition++;
-            if (departure.getCalendar().equals(departureDay)) {
+            if (departure.getCalendar().equals(departureDay.toString())) {
                 break;
             }
         }
@@ -25,7 +25,7 @@ public class ProcessDeparture {
         return initialPosition;
     }
 
-    private int getFinalPosition(ArrayList<Departure> items, String departureDay, int initialPosition){
+    private int getFinalPosition(ArrayList<Departure> items, DepartureDay departureDay, int initialPosition){
         int finalPosition = initialPosition;
 
         Departure departure;
@@ -33,7 +33,7 @@ public class ProcessDeparture {
         while (finalPosition < items.size()) {
             departure = items.get(finalPosition);
 
-            if (!departure.getCalendar().equals(departureDay)) {
+            if (!departure.getCalendar().equals(departureDay.toString())) {
                 break;
             }
 
@@ -61,7 +61,7 @@ public class ProcessDeparture {
         return itemsByDay;
     }
 
-    private ArrayList<Departure> splitArrayListDepartureByDay(ArrayList<Departure> items, String departureDay) {
+    private ArrayList<Departure> splitArrayListDepartureByDay(ArrayList<Departure> items, DepartureDay departureDay) {
 
         int initialPosition = getInitialPosition(items, departureDay);
 
@@ -71,14 +71,14 @@ public class ProcessDeparture {
     }
 
     public ArrayList<Departure> createArrayListDepartureWeekDay(ArrayList<Departure> items){
-        return splitArrayListDepartureByDay(items, DepartureDay.WEEKDAY.toString());
+        return splitArrayListDepartureByDay(items, DepartureDay.WEEKDAY);
     }
 
     public ArrayList<Departure> createArrayListDepartureSaturday(ArrayList<Departure> items){
-        return splitArrayListDepartureByDay(items, DepartureDay.SATURDAY.toString());
+        return splitArrayListDepartureByDay(items, DepartureDay.SATURDAY);
     }
 
     public ArrayList<Departure> createArrayListDepartureSunday(ArrayList<Departure> items){
-        return splitArrayListDepartureByDay(items, DepartureDay.SUNDAY.toString());
+        return splitArrayListDepartureByDay(items, DepartureDay.SUNDAY);
     }
 }

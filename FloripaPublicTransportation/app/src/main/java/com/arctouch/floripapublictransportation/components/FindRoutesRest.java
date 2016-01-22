@@ -22,7 +22,7 @@ public class FindRoutesRest extends RestConnection {
     @Override
     protected ArrayList parseJson(String jsonResult) {
 
-        ArrayList<Route> items = new ArrayList();
+        ArrayList<Route> items = new ArrayList<>();
 
         try {
             JSONObject json = new JSONObject(jsonResult);

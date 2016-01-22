@@ -50,10 +50,6 @@ public class ListViewRoutesAdapter extends BaseAdapter{
         return convertView;
     }
 
-    public void setMInflater(Context context) {
-        this.mInflater = LayoutInflater.from(context);
-    }
-
     public void setItems(ArrayList<Route> items) {
         this.items = items;
     }

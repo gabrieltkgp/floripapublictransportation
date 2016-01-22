@@ -19,7 +19,7 @@ public class VisualComponentsUtils {
         }
 
         int height = 0;
-        int desiredWidth = View.MeasureSpec.makeMeasureSpec(mListView.getWidth(), View.MeasureSpec.UNSPECIFIED);
+        int desiredWidth = View.MeasureSpec.makeMeasureSpec(mListView.getWidth(), View.MeasureSpec.AT_MOST);
         for (int i = 0; i < mListAdapter.getCount(); i++) {
             View listItem = mListAdapter.getView(i, null, mListView);
             listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
@@ -40,7 +40,6 @@ public class VisualComponentsUtils {
         }
 
         int height = 0;
-        int desiredWidth = View.MeasureSpec.makeMeasureSpec(gridView.getWidth(), View.MeasureSpec.UNSPECIFIED);
 
         double count = gridView.getCount();
         double columns = gridView.getNumColumns();
@@ -48,7 +47,7 @@ public class VisualComponentsUtils {
         int nNumLines = (int) Math.ceil(result);
 
         View listItem = gridViewAdapter.getView(1, null, gridView);
-        listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+        listItem.measure(0, 0);
         height = listItem.getMeasuredHeight() * (nNumLines + 1);
 
         ViewGroup.LayoutParams params = gridView.getLayoutParams();

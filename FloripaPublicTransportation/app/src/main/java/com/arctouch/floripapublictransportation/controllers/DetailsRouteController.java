@@ -1,16 +1,15 @@
 package com.arctouch.floripapublictransportation.controllers;
 
 import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 
 import com.arctouch.floripapublictransportation.components.FindDeparturesRest;
-import com.arctouch.floripapublictransportation.components.FindRoutesRest;
 import com.arctouch.floripapublictransportation.components.FindStopsRest;
+import com.arctouch.floripapublictransportation.entities.Departure;
+import com.arctouch.floripapublictransportation.general.DepartureDay;
 import com.arctouch.floripapublictransportation.interfaces.AsyncResponse;
-import com.arctouch.floripapublictransportation.tools.RestConfiguration;
+import com.arctouch.floripapublictransportation.tools.ProcessDeparture;
 
-import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by GabrielPacheco on 21/01/2016.
@@ -23,39 +22,46 @@ public class DetailsRouteController extends BaseController{
 
     public void executeStopsRestConnection(String query){
 
-        if (!isConnected()) {
-            showMessage("No network connection available.");
+        if (!validationRestConnection()){
             return;
         }
 
-        RestConfiguration restConfiguration = readRestConfiguration();
+        FindStopsRest findStopsRest = new FindStopsRest((AsyncResponse) getContext(), getRestConfiguration().getUser(), getRestConfiguration().getPassword(), query);
 
-        if (restConfiguration == null){
-            showMessage("Properties not found.");
-            return;
-        }
-
-        FindStopsRest findStopsRest = new FindStopsRest((AsyncResponse) getContext(), restConfiguration.getUser(), restConfiguration.getPassword(), query);
-
-        findStopsRest.execute(restConfiguration.getUrlFindStops());
+        findStopsRest.execute(getRestConfiguration().getUrlFindStops());
     }
 
     public void executeDeparturesRestConnection(String query){
 
-        if (!isConnected()) {
-            showMessage("No network connection available.");
+        if (!validationRestConnection()){
             return;
         }
 
-        RestConfiguration restConfiguration = readRestConfiguration();
+        FindDeparturesRest findDeparturesRest = new FindDeparturesRest((AsyncResponse) getContext(), getRestConfiguration().getUser(), getRestConfiguration().getPassword(), query);
 
-        if (restConfiguration == null){
-            showMessage("Properties not found.");
-            return;
+        findDeparturesRest.execute(getRestConfiguration().getUrlFindDepartures());
+    }
+
+    public ArrayList<Departure> getArrayListDeparture(ArrayList<Departure> items, DepartureDay departureDay){
+
+        ArrayList<Departure> itemsDay = null;
+        ProcessDeparture processDeparture = new ProcessDeparture();
+
+        switch (departureDay) {
+            case WEEKDAY: {
+                itemsDay = processDeparture.createArrayListDepartureWeekDay(items);
+                break;
+            }
+            case SATURDAY: {
+                itemsDay = processDeparture.createArrayListDepartureSaturday(items);
+                break;
+            }
+            case SUNDAY: {
+                itemsDay = processDeparture.createArrayListDepartureSunday(items);
+                break;
+            }
         }
 
-        FindDeparturesRest findDeparturesRest = new FindDeparturesRest((AsyncResponse) getContext(), restConfiguration.getUser(), restConfiguration.getPassword(), query);
-
-        findDeparturesRest.execute(restConfiguration.getUrlFindDepartures());
+        return itemsDay;
     }
 }

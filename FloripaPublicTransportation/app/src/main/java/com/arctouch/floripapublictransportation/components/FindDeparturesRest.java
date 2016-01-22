@@ -21,7 +21,7 @@ public class FindDeparturesRest extends RestConnection{
 
     @Override
     protected ArrayList parseJson(String jsonResult) {
-        ArrayList<Departure> items = new ArrayList();
+        ArrayList<Departure> items = new ArrayList<>();
 
         try {
             JSONObject json = new JSONObject(jsonResult);

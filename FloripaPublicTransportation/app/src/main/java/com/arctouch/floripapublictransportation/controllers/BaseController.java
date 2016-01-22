@@ -17,34 +17,41 @@ import java.io.IOException;
 public class BaseController {
 
     private Context context;
+    private RestConfiguration restConfiguration;
 
     public BaseController(Context context) {
         this.context = context;
     }
 
-    protected boolean isConnected(){
+    private boolean isConnected(){
         ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 
-        if (!((networkInfo != null) && networkInfo.isConnected())){
-            return false;
-        }
-
-        return true;
+        return ((networkInfo != null) && networkInfo.isConnected());
     }
 
-    protected RestConfiguration readRestConfiguration(){
-        RestConfiguration restConfiguration = new RestConfiguration(getContext());
+    private boolean readRestConfiguration(){
+        restConfiguration = new RestConfiguration(getContext());
 
         try {
 
             restConfiguration.readProperties();
 
+            return true;
+
         } catch (IOException e) {
-            return null;
+            showMessage("Properties not found.");
+            return false;
+        }
+    }
+
+    protected boolean validationRestConnection(){
+        if (!isConnected()) {
+            showMessage("No network connection available.");
+            return false;
         }
 
-        return restConfiguration;
+        return readRestConfiguration();
     }
 
     public Context getContext() {
@@ -55,5 +62,9 @@ public class BaseController {
         Log.i(Constants.TAG_LOG_INFO, message);
 
         Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+    }
+
+    public RestConfiguration getRestConfiguration() {
+        return restConfiguration;
     }
 }
