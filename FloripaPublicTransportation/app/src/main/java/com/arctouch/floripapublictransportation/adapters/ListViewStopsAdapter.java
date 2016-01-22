@@ -45,7 +45,7 @@ public class ListViewStopsAdapter extends BaseAdapter{
 
         convertView = mInflater.inflate(R.layout.item_list_route, null);
 
-        ((TextView) convertView.findViewById(R.id.textView)).setText(item.getName());
+        ((TextView) convertView.findViewById(R.id.textViewItemListRoute)).setText(item.getName());
 
         return convertView;
     }

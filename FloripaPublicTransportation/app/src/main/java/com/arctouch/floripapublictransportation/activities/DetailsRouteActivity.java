@@ -43,7 +43,7 @@ public class DetailsRouteActivity extends AppCompatActivity implements AsyncResp
 
         route = (Route) it.getSerializableExtra("route");
 
-        textViewRoute.setText("Route: " + route.getLongName());
+        textViewRoute.setText(route.getLongName());
     }
 
     private void createObjects() {

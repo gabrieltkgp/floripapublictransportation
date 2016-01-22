@@ -21,17 +21,6 @@ import static org.junit.Assert.*;
 @RunWith(AndroidJUnit4.class)
 public class ProcessDepartureTest {
 
-
-
-    @Before
-    public void setUp() throws Exception {
-    }
-
-    @After
-    public void tearDown() throws Exception {
-
-    }
-
     private ArrayList<Departure> createArrayList(){
         ArrayList<Departure> items = new ArrayList<>();
 
@@ -83,5 +72,41 @@ public class ProcessDepartureTest {
         ArrayList<Departure> itemsWeek = processDeparture.createArrayListDepartureSunday(items);
 
         Assert.assertEquals(itemsWeek.size(), 5);
+    }
+
+    private ArrayList<Departure> createArrayListIncomplete(){
+        ArrayList<Departure> items = new ArrayList<>();
+
+        for(int i = 1;i <= 5; i++){
+            Departure departure = new Departure(i, "SATURDAY", "07:00");
+            items.add(departure);
+        }
+
+        for(int i = 6;i <= 10; i++){
+            Departure departure = new Departure(i, "SUNDAY", "08:00");
+            items.add(departure);
+        }
+
+        return items;
+    }
+
+    @Test
+    public void testCreateArrayListDepartureWeekDayEmpty(){
+        ArrayList<Departure> items = createArrayListIncomplete();
+        ProcessDeparture processDeparture = new ProcessDeparture();
+
+        ArrayList<Departure> itemsWeek = processDeparture.createArrayListDepartureWeekDay(items);
+
+        Assert.assertEquals(itemsWeek.size(), 0);
+    }
+
+    @Test
+    public void testCreateArrayListDepartureSaturdayEmpty(){
+        ArrayList<Departure> items = new ArrayList<>();
+        ProcessDeparture processDeparture = new ProcessDeparture();
+
+        ArrayList<Departure> itemsWeek = processDeparture.createArrayListDepartureSaturday(items);
+
+        Assert.assertEquals(itemsWeek.size(), 0);
     }
 }

@@ -41,7 +41,7 @@ public class ListRouteActivity extends AppCompatActivity implements AdapterView.
     }
 
     private void initializeVisualComponents(){
-        listView = (ListView) findViewById(R.id.listViewResult);
+        listView = (ListView) findViewById(R.id.listViewRoute);
         listView.setOnItemClickListener(this);
 
         editText = (EditText) findViewById(R.id.editTextSearch);

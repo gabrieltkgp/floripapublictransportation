@@ -45,7 +45,7 @@ public class ListViewRoutesAdapter extends BaseAdapter{
 
         convertView = mInflater.inflate(R.layout.item_list_route, null);
 
-        ((TextView) convertView.findViewById(R.id.textView)).setText(item.getLongName());
+        ((TextView) convertView.findViewById(R.id.textViewItemListRoute)).setText(item.getLongName());
 
         return convertView;
     }

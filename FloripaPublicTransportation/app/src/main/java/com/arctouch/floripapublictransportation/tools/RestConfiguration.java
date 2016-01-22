@@ -37,6 +37,10 @@ public class RestConfiguration {
     }
 
     public RestConfiguration(Context context) {
+        if (context == null){
+            throw new NullPointerException("Context can't be null");
+        }
+
         this.context = context;
     }
 

@@ -15,9 +15,11 @@ public class ProcessDeparture {
 
     private int getInitialPosition(ArrayList<Departure> items, DepartureDay departureDay){
         int initialPosition = -1;
-        for (Departure departure : items) {
-            initialPosition++;
+        Departure departure;
+        for (int i = 0; i < items.size(); i++) {
+            departure = items.get(i);
             if (departure.getCalendar().equals(departureDay.toString())) {
+                initialPosition = i;
                 break;
             }
         }
@@ -26,6 +28,10 @@ public class ProcessDeparture {
     }
 
     private int getFinalPosition(ArrayList<Departure> items, DepartureDay departureDay, int initialPosition){
+        if (initialPosition < 0){
+            return -1;
+        }
+
         int finalPosition = initialPosition;
 
         Departure departure;
@@ -47,11 +53,16 @@ public class ProcessDeparture {
 
 
     private ArrayList<Departure> getArrayListByDay(ArrayList<Departure> items, int initialPosition, int finalPosition){
+
+        ArrayList<Departure> itemsByDay = new ArrayList<>();
+
+        if (initialPosition < 0){
+            return itemsByDay;
+        }
+
         Departure departure;
 
         int arraySize = finalPosition - initialPosition + 1;
-
-        ArrayList<Departure> itemsByDay = new ArrayList<>();
 
         for (int i = 0; i < arraySize; i++) {
             departure = items.get(initialPosition + i);
