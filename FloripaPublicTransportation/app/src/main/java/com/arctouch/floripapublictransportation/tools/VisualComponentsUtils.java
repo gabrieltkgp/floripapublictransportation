@@ -49,8 +49,7 @@ public class VisualComponentsUtils {
         int desiredWidth = View.MeasureSpec.makeMeasureSpec(gridView.getWidth(), View.MeasureSpec.AT_MOST);
         View listItem = gridViewAdapter.getView(1, null, gridView);
         listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
-        //listItem.measure(0, 0);
-        height = listItem.getMeasuredHeight() * (nNumLines + 2);
+        height = listItem.getMeasuredHeight() * (nNumLines);
 
         ViewGroup.LayoutParams params = gridView.getLayoutParams();
         params.height = height;

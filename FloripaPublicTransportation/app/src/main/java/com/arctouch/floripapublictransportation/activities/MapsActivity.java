@@ -1,5 +1,6 @@
 package com.arctouch.floripapublictransportation.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.arctouch.floripapublictransportation.R;
+import com.arctouch.floripapublictransportation.tools.FormatAddress;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -51,6 +53,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        selectFlorianopolisOnTheMap(googleMap);
+    }
+
+    private void selectFlorianopolisOnTheMap(GoogleMap googleMap) {
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
@@ -64,20 +70,36 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onMapLongClick(LatLng point) {
+        markStreetOnTheMap(point);
+    }
+
+    private void markStreetOnTheMap(LatLng point) {
 
         Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
         String markerText = new Date().toString();
-        try {
-            List<Address> listLocation = geocoder.getFromLocation(point.latitude, point.longitude, 1);
-            if (listLocation != null && listLocation.size() > 0) {
-                markerText = listLocation.get(0).getAddressLine(0);
-            }
 
-            streetName = listLocation.get(0).getThoroughfare();
+        List<Address> listLocation = null;
+
+        try {
+
+            listLocation = geocoder.getFromLocation(point.latitude, point.longitude, 1);
 
         } catch (IOException e) {
             e.printStackTrace();
+            return;
         }
+
+        if (listLocation == null) {
+            return;
+        }
+
+        if (listLocation.size() == 0) {
+            return;
+        }
+
+        markerText = listLocation.get(0).getAddressLine(0);
+
+        this.streetName = listLocation.get(0).getThoroughfare();
 
         if (marker != null) {
             marker.remove();
@@ -87,49 +109,36 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .position(point)
                 .title(markerText)
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+
+        Toast.makeText(this, this.streetName, Toast.LENGTH_SHORT).show();
     }
 
-    public void onButtonClick(View v){
-        if ((streetName == null) || (streetName.toString().equals(""))){
+    public void onButtonClick(View v) {
+        returnStreetNameToListRouteActivity();
+    }
+
+    private void returnStreetNameToListRouteActivity() {
+        if ((streetName == null) || (streetName.toString().equals(""))) {
             Toast.makeText(this, "No street was selected.", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        streetName = extractAddress(streetName);
+        FormatAddress formatAddress = new FormatAddress();
 
-        Toast.makeText(this, streetName, Toast.LENGTH_SHORT).show();
+        streetName = formatAddress.extractStreetName(streetName);
 
         Intent it = new Intent(this, ListRouteActivity.class);
 
         it.putExtra("street", streetName);
 
-        setResult(1, it);
+        setResult(Activity.RESULT_OK, it);
 
         finish();
     }
 
     public void onButtonBackMapsClick(View v) {
-        setResult(0, new Intent(this, ListRouteActivity.class));
+        setResult(Activity.RESULT_CANCELED, new Intent(this, ListRouteActivity.class));
         finish();
     }
 
-    private String extractAddress(String street){
-        String streetExtract;
-
-        streetExtract = street;
-        streetExtract = streetExtract.replaceAll("Avenida", "");
-        streetExtract = streetExtract.replaceAll("Av.", "");
-        streetExtract = streetExtract.replaceAll("Rua", "");
-        streetExtract = streetExtract.replaceAll("R.", "");
-        streetExtract = streetExtract.replaceAll("Servidão", "");
-        streetExtract = streetExtract.replaceAll("Serv.", "");
-        streetExtract = streetExtract.replaceAll("Rodovia", "");
-        streetExtract = streetExtract.replaceAll("Rod.", "");
-        streetExtract = streetExtract.replaceAll("Professor", "");
-        streetExtract = streetExtract.replaceAll("Prof.", "");
-
-        streetExtract = streetExtract.trim();
-
-        return streetExtract;
-    }
 }

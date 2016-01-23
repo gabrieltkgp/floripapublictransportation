@@ -40,7 +40,7 @@ public class GridViewDepartureAdapter extends BaseAdapter {
         TextView tv;
         if (convertView == null) {
             tv = new TextView(context);
-            tv.setLayoutParams(new GridView.LayoutParams(120, 50));
+            tv.setLayoutParams(new GridView.LayoutParams(110, 50));
         } else {
             tv = (TextView) convertView;
         }

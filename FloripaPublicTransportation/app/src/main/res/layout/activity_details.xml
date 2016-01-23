@@ -37,7 +37,7 @@
                 android:id="@+id/textViewStops"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="5dip"
-                android:textColor="#000000" />
+                android:textColor="#ffffff" />
 
             <ListView
                 android:id="@+id/listViewStops"
@@ -51,7 +51,7 @@
                 android:id="@+id/textViewDeparture"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="5dip"
-                android:textColor="#000000" />
+                android:textColor="#ffffff" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -60,13 +60,13 @@
                 android:id="@+id/textViewWeekday"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="5dip"
-                android:textColor="#000000" />
+                android:textColor="#ffffff" />
 
             <GridView
                 android:id="@+id/gridViewWeekday"
                 android:numColumns="auto_fit"
                 android:gravity="center"
-                android:columnWidth="60dp"
+                android:columnWidth="50dp"
                 android:stretchMode="columnWidth"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent">
@@ -78,14 +78,13 @@
                 android:text="SATURDAY"
                 android:id="@+id/textViewSaturday"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="5dip"
-                android:textColor="#000000" />
+                android:textColor="#ffffff" />
 
             <GridView
                 android:id="@+id/gridViewSaturday"
                 android:numColumns="auto_fit"
                 android:gravity="center"
-                android:columnWidth="60dp"
+                android:columnWidth="50dp"
                 android:stretchMode="columnWidth"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent">
@@ -97,14 +96,13 @@
                 android:text="SUNDAY"
                 android:id="@+id/textViewSunday"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="5dip"
-                android:textColor="#000000" />
+                android:textColor="#ffffff" />
 
             <GridView
                 android:id="@+id/gridViewSunday"
                 android:numColumns="auto_fit"
                 android:gravity="center"
-                android:columnWidth="60dp"
+                android:columnWidth="50dp"
                 android:stretchMode="columnWidth"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent">
@@ -117,7 +115,6 @@
                 android:background="@mipmap/back"
                 android:onClick="onButtonBackClick"
                 android:text="Back"
-                android:layout_marginTop="5dip"
                 android:layout_gravity="center_horizontal" />
 
         </LinearLayout>

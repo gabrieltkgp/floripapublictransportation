@@ -1,6 +1,7 @@
 package com.arctouch.floripapublictransportation.activities;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import com.arctouch.floripapublictransportation.R;
 import com.arctouch.floripapublictransportation.adapters.ListViewRoutesAdapter;
 import com.arctouch.floripapublictransportation.controllers.ListRouteController;
 import com.arctouch.floripapublictransportation.entities.Route;
+import com.arctouch.floripapublictransportation.general.Constants;
 import com.arctouch.floripapublictransportation.general.RestType;
 import com.arctouch.floripapublictransportation.interfaces.AsyncResponse;
 
@@ -57,7 +59,7 @@ public class ListRouteActivity extends AppCompatActivity implements AdapterView.
 
         Intent it = controller.createIntentDetails(route);
 
-        startActivityForResult(it, 1);
+        startActivityForResult(it, Constants.DETAILS_ROUTE_ACTIVITY);
     }
 
     private void defineListViewAdapter(ArrayList items) {
@@ -88,20 +90,14 @@ public class ListRouteActivity extends AppCompatActivity implements AdapterView.
     public void onButtonShowMapsClick(View v) {
         Intent it = new Intent(this, MapsActivity.class);
 
-        startActivityForResult(it, 1);
+        startActivityForResult(it, Constants.MAPS_ACTIVITY);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        if (requestCode == 1) {
+        if (requestCode == Constants.MAPS_ACTIVITY) {
             // Make sure the request was successful
-            if (resultCode == 1) {
-                // The user picked a contact.
-                // The Intent's data Uri identifies which contact was selected.
-
-                // Do something with the contact here (bigger example below)
-
+            if (resultCode == Activity.RESULT_OK) {
                 String street = data.getStringExtra("street");
 
                 editText.setText(street);
