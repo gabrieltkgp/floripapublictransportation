@@ -59,6 +59,7 @@
                 android:text="WEEKDAY"
                 android:id="@+id/textViewWeekday"
                 android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dip"
                 android:textColor="#000000" />
 
             <GridView
@@ -77,6 +78,7 @@
                 android:text="SATURDAY"
                 android:id="@+id/textViewSaturday"
                 android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dip"
                 android:textColor="#000000" />
 
             <GridView
@@ -95,6 +97,7 @@
                 android:text="SUNDAY"
                 android:id="@+id/textViewSunday"
                 android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dip"
                 android:textColor="#000000" />
 
             <GridView
@@ -114,6 +117,7 @@
                 android:background="@mipmap/back"
                 android:onClick="onButtonBackClick"
                 android:text="Back"
+                android:layout_marginTop="5dip"
                 android:layout_gravity="center_horizontal" />
 
         </LinearLayout>
