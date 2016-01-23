@@ -2,11 +2,13 @@ package com.arctouch.floripapublictransportation.activities;
 
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.arctouch.floripapublictransportation.R;
@@ -24,6 +26,7 @@ public class ListRouteActivity extends AppCompatActivity implements AdapterView.
     private ListViewRoutesAdapter listViewRoutesAdapter;
     private EditText editText;
     private ListRouteController controller;
+    private ImageButton imageButtonSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,16 +38,18 @@ public class ListRouteActivity extends AppCompatActivity implements AdapterView.
         createObjects();
     }
 
-    private void createObjects(){
+    private void createObjects() {
         controller = new ListRouteController(this);
         listViewRoutesAdapter = new ListViewRoutesAdapter(this);
     }
 
-    private void initializeVisualComponents(){
+    private void initializeVisualComponents() {
         listView = (ListView) findViewById(R.id.listViewRoute);
         listView.setOnItemClickListener(this);
 
         editText = (EditText) findViewById(R.id.editTextSearch);
+
+        imageButtonSearch = (ImageButton) findViewById(R.id.buttonSearch);
     }
 
     private void showDetailsRouteActivity(int position) {
@@ -55,13 +60,13 @@ public class ListRouteActivity extends AppCompatActivity implements AdapterView.
         startActivityForResult(it, 1);
     }
 
-    private void defineListViewAdapter(ArrayList items){
+    private void defineListViewAdapter(ArrayList items) {
         listViewRoutesAdapter.setItems(items);
 
         listView.setAdapter(listViewRoutesAdapter);
     }
 
-    public void onButtonClick(View v){
+    public void onButtonClick(View v) {
         controller.executeRestConnection(editText.getText().toString());
     }
 
@@ -78,5 +83,31 @@ public class ListRouteActivity extends AppCompatActivity implements AdapterView.
     @Override
     public void showMessage(String message) {
         controller.showMessage(message);
+    }
+
+    public void onButtonShowMapsClick(View v) {
+        Intent it = new Intent(this, MapsActivity.class);
+
+        startActivityForResult(it, 1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 1) {
+            // Make sure the request was successful
+            if (resultCode == 1) {
+                // The user picked a contact.
+                // The Intent's data Uri identifies which contact was selected.
+
+                // Do something with the contact here (bigger example below)
+
+                String street = data.getStringExtra("street");
+
+                editText.setText(street);
+
+                controller.executeRestConnection(editText.getText().toString());
+            }
+        }
     }
 }

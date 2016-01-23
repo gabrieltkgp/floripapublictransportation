@@ -168,7 +168,7 @@ public class DetailsRouteActivity extends AppCompatActivity implements AsyncResp
     }
 
     public void onButtonBackClick(View v) {
-        setResult(1, new Intent(this, ListRouteActivity.class));
+        setResult(0, new Intent(this, ListRouteActivity.class));
         finish();
     }
 

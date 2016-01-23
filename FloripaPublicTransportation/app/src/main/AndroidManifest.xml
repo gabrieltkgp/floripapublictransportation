@@ -28,9 +28,10 @@
         android:theme="@style/AppTheme">
         <activity android:name=".activities.ListRouteActivity" />
         <activity android:name=".activities.DetailsRouteActivity" />
+        <activity android:name=".activities.MapsActivity"/>
 
-        <activity android:name=".activities.MapsActivity">
-        <!--<activity android:name=".activities.SplashActivity">-->
+        <!--<activity android:name=".activities.MapsActivity">-->
+        <activity android:name=".activities.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
