@@ -3,14 +3,13 @@ package com.arctouch.floripapublictransportation.activities;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import com.arctouch.floripapublictransportation.R;
 import com.arctouch.floripapublictransportation.adapters.ListViewRoutesAdapter;
@@ -28,7 +27,7 @@ public class ListRouteActivity extends AppCompatActivity implements AdapterView.
     private ListViewRoutesAdapter listViewRoutesAdapter;
     private EditText editText;
     private ListRouteController controller;
-    private ImageButton imageButtonSearch;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +50,8 @@ public class ListRouteActivity extends AppCompatActivity implements AdapterView.
 
         editText = (EditText) findViewById(R.id.editTextSearch);
 
-        imageButtonSearch = (ImageButton) findViewById(R.id.buttonSearch);
+        progressBar = (ProgressBar) findViewById(R.id.progressBarList);
+        progressBar.setVisibility(ProgressBar.INVISIBLE);
     }
 
     private void showDetailsRouteActivity(int position) {
@@ -68,8 +68,13 @@ public class ListRouteActivity extends AppCompatActivity implements AdapterView.
         listView.setAdapter(listViewRoutesAdapter);
     }
 
-    public void onButtonClick(View v) {
+    private void executeRestConnection(){
+        progressBar.setVisibility(ProgressBar.VISIBLE);
         controller.executeRestConnection(editText.getText().toString());
+    }
+
+    public void onButtonClick(View v) {
+        executeRestConnection();
     }
 
     @Override
@@ -80,6 +85,7 @@ public class ListRouteActivity extends AppCompatActivity implements AdapterView.
     @Override
     public void processFinish(ArrayList items, RestType restType) {
         defineListViewAdapter(items);
+        progressBar.setVisibility(ProgressBar.INVISIBLE);
     }
 
     @Override
@@ -102,7 +108,7 @@ public class ListRouteActivity extends AppCompatActivity implements AdapterView.
 
                 editText.setText(street);
 
-                controller.executeRestConnection(editText.getText().toString());
+                executeRestConnection();
             }
         }
     }

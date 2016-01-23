@@ -21,7 +21,6 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -36,30 +35,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        selectFlorianopolisOnTheMap(googleMap);
-    }
-
     private void selectFlorianopolisOnTheMap(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
         LatLng florianopolis = new LatLng(-27.595378, -48.548050);
         mMap.addMarker(new MarkerOptions().position(florianopolis).title("Florianópolis"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(florianopolis));
@@ -69,16 +53,39 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     @Override
+    public void onMapReady(GoogleMap googleMap) {
+        selectFlorianopolisOnTheMap(googleMap);
+    }
+
+    @Override
     public void onMapLongClick(LatLng point) {
         markStreetOnTheMap(point);
+    }
+
+    private void setStreetName(String streetName){
+        this.streetName = streetName;
+
+        Toast.makeText(this, this.streetName, Toast.LENGTH_SHORT).show();
+    }
+
+    private void setNewMarker(LatLng point, String address){
+        marker = mMap.addMarker(new MarkerOptions()
+                .position(point)
+                .title(address)
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+    }
+
+    private void clearOldMarker(){
+        if (marker != null) {
+            marker.remove();
+        }
     }
 
     private void markStreetOnTheMap(LatLng point) {
 
         Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
-        String markerText = new Date().toString();
 
-        List<Address> listLocation = null;
+        List<Address> listLocation;
 
         try {
 
@@ -97,24 +104,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             return;
         }
 
-        markerText = listLocation.get(0).getAddressLine(0);
+        clearOldMarker();
 
-        this.streetName = listLocation.get(0).getThoroughfare();
+        setNewMarker(point, listLocation.get(0).getAddressLine(0));
 
-        if (marker != null) {
-            marker.remove();
-        }
-
-        marker = mMap.addMarker(new MarkerOptions()
-                .position(point)
-                .title(markerText)
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
-
-        Toast.makeText(this, this.streetName, Toast.LENGTH_SHORT).show();
-    }
-
-    public void onButtonClick(View v) {
-        returnStreetNameToListRouteActivity();
+        setStreetName(listLocation.get(0).getThoroughfare());
     }
 
     private void returnStreetNameToListRouteActivity() {
@@ -134,6 +128,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setResult(Activity.RESULT_OK, it);
 
         finish();
+    }
+
+    public void onButtonClick(View v) {
+        returnStreetNameToListRouteActivity();
     }
 
     public void onButtonBackMapsClick(View v) {

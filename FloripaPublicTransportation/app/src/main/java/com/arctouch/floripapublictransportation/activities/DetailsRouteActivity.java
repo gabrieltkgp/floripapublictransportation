@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.arctouch.floripapublictransportation.R;
@@ -29,6 +30,7 @@ public class DetailsRouteActivity extends AppCompatActivity implements AsyncResp
     private ListView listViewStop;
 
     private DetailsRouteController controller;
+    private ProgressBar progressBar;
 
     private void initializeVisualComponents() {
         textViewRoute = (TextView) findViewById(R.id.textViewRoute);
@@ -36,6 +38,9 @@ public class DetailsRouteActivity extends AppCompatActivity implements AsyncResp
         listViewStop = (ListView) findViewById(R.id.listViewStops);
 
         defineRouteInformation();
+
+        progressBar = (ProgressBar) findViewById(R.id.progressBarDetails);
+        progressBar.setVisibility(ProgressBar.INVISIBLE);
     }
 
     private void defineRouteInformation(){
@@ -51,6 +56,7 @@ public class DetailsRouteActivity extends AppCompatActivity implements AsyncResp
     }
 
     private void executeRestConnection(){
+        progressBar.setVisibility(ProgressBar.VISIBLE);
         controller.executeStopsRestConnection(route.getId().toString());
         controller.executeDeparturesRestConnection(route.getId().toString());
     }
@@ -181,6 +187,8 @@ public class DetailsRouteActivity extends AppCompatActivity implements AsyncResp
 
         if (restType.equals(RestType.DEPARTURE)) {
             configureGridView(items);
+
+            progressBar.setVisibility(ProgressBar.INVISIBLE);
         }
     }
 
