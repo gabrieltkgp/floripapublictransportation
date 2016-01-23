@@ -2,9 +2,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/splash"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#ffffff">
+    android:layout_height="match_parent">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@mipmap/background"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -14,11 +17,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Floripa Public Transportation"
-            android:textColor="#000000"
-            android:textSize="30dp"
+            android:textColor="#ffffff"
+            android:textSize="40dp"
             android:layout_gravity="center_horizontal"
             android:layout_centerHorizontal="true"
-            android:layout_weight="0"
             android:autoText="false"
             android:gravity="center|center_horizontal"
             android:textAlignment="center"
@@ -32,9 +34,10 @@
             android:layout_height="300dp"
             android:layout_below="@+id/texViewSplash"
             android:layout_centerHorizontal="true"
-            android:src="@mipmap/bus"
+            android:src="@mipmap/bus_transparent"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:foregroundGravity="center_vertical|center_horizontal" />
+            android:foregroundGravity="center_vertical|center_horizontal"
+            android:background="@android:color/transparent" />
     </LinearLayout>
 </RelativeLayout>

@@ -1,9 +1,11 @@
 package com.arctouch.floripapublictransportation.activities;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.ImageView;
 
 import com.arctouch.floripapublictransportation.R;
 
@@ -17,7 +19,7 @@ public class SplashActivity extends AppCompatActivity implements Runnable{
         setContentView(R.layout.activity_splash);
 
         Handler handler = new Handler();
-        handler.postDelayed(this, 2000);
+        handler.postDelayed(this, 10000);
     }
 
     @Override
