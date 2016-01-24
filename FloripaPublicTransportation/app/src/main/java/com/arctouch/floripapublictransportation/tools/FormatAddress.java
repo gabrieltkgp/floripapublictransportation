@@ -7,6 +7,11 @@ import java.text.Normalizer;
  */
 public class FormatAddress {
 
+    /**
+     * Method to remove the public place name to send to the rest server.
+     * @param street
+     * @return
+     */
     public String extractStreetName(String street) {
         String streetExtract;
 
@@ -30,6 +35,12 @@ public class FormatAddress {
 
         return streetExtract;
     }
+
+    /**
+     * to avoid errors, it´s necessary remove special characteres to send to the rest server.
+     * @param street
+     * @return
+     */
 
     public String removeSpecialCharacter(String street) {
         CharSequence cs = new StringBuilder(street);

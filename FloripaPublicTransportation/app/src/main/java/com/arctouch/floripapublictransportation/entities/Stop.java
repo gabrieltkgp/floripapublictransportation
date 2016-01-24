@@ -20,31 +20,16 @@ public class Stop {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public Integer getSequence() {
         return sequence;
     }
 
-    public void setSequence(Integer sequence) {
-        this.sequence = sequence;
-    }
-
     public Integer getRouteId() {
         return routeId;
     }
 
-    public void setRouteId(Integer routeId) {
-        this.routeId = routeId;
-    }
 }

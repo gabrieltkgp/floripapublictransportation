@@ -2,11 +2,11 @@ package com.arctouch.floripapublictransportation.controllers;
 
 import android.content.Context;
 
-import com.arctouch.floripapublictransportation.components.FindDeparturesRest;
-import com.arctouch.floripapublictransportation.components.FindStopsRest;
 import com.arctouch.floripapublictransportation.entities.Departure;
 import com.arctouch.floripapublictransportation.general.DepartureDay;
 import com.arctouch.floripapublictransportation.interfaces.AsyncResponse;
+import com.arctouch.floripapublictransportation.restconnection.FindDeparturesRest;
+import com.arctouch.floripapublictransportation.restconnection.FindStopsRest;
 import com.arctouch.floripapublictransportation.tools.ProcessDeparture;
 
 import java.util.ArrayList;
@@ -14,15 +14,15 @@ import java.util.ArrayList;
 /**
  * Created by GabrielPacheco on 21/01/2016.
  */
-public class DetailsRouteController extends BaseController{
+public class DetailsRouteController extends BaseController {
 
     public DetailsRouteController(Context context) {
         super(context);
     }
 
-    public void executeStopsRestConnection(String query){
+    public void executeStopsRestConnection(String query) {
 
-        if (!validationRestConnection()){
+        if (!validationRestConnection()) {
             return;
         }
 
@@ -31,9 +31,9 @@ public class DetailsRouteController extends BaseController{
         findStopsRest.execute(getRestConfiguration().getUrlFindStops());
     }
 
-    public void executeDeparturesRestConnection(String query){
+    public void executeDeparturesRestConnection(String query) {
 
-        if (!validationRestConnection()){
+        if (!validationRestConnection()) {
             return;
         }
 
@@ -42,7 +42,7 @@ public class DetailsRouteController extends BaseController{
         findDeparturesRest.execute(getRestConfiguration().getUrlFindDepartures());
     }
 
-    public ArrayList<Departure> getArrayListDeparture(ArrayList<Departure> items, DepartureDay departureDay){
+    public ArrayList<Departure> getArrayListDeparture(ArrayList<Departure> items, DepartureDay departureDay) {
 
         ArrayList<Departure> itemsDay = null;
         ProcessDeparture processDeparture = new ProcessDeparture();

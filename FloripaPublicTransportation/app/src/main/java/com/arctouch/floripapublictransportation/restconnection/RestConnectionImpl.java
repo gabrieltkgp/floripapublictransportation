@@ -1,9 +1,10 @@
-package com.arctouch.floripapublictransportation.components;
+package com.arctouch.floripapublictransportation.restconnection;
 
 import android.os.AsyncTask;
 import android.util.Base64;
 
 import com.arctouch.floripapublictransportation.interfaces.AsyncResponse;
+import com.arctouch.floripapublictransportation.interfaces.RestConnection;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -17,21 +18,19 @@ import java.util.ArrayList;
 /**
  * Created by GabrielPacheco on 14/01/2016.
  */
-public class RestConnection extends AsyncTask<String, Void, String> {
+public class RestConnectionImpl extends AsyncTask<String, Void, String> implements RestConnection {
     private String user;
     private String password;
     private String query;
     private AsyncResponse delegate;
 
-    //constructor
-    public RestConnection(AsyncResponse delegate, String user, String password, String query) {
+    public RestConnectionImpl(AsyncResponse delegate, String user, String password, String query) {
         this.delegate = delegate;
         this.user = user;
         this.password = password;
         this.query = query;
     }
 
-    //private methods
     private String formatAuthorization() {
         String usernamePassword = this.user + ":" + this.password;
         return "Basic " + Base64.encodeToString(usernamePassword.getBytes(), Base64.NO_WRAP);
@@ -39,7 +38,7 @@ public class RestConnection extends AsyncTask<String, Void, String> {
 
     private String receiveConnectionContent(HttpURLConnection connection) throws IOException {
         InputStream is = null;
-        StringBuffer response = new StringBuffer();
+        StringBuilder response = new StringBuilder();
         try {
             is = connection.getInputStream();
 
@@ -68,7 +67,7 @@ public class RestConnection extends AsyncTask<String, Void, String> {
         wr.close();
     }
 
-    private HttpURLConnection createConnection(String myUrl) throws IOException{
+    private HttpURLConnection createConnection(String myUrl) throws IOException {
         URL url = new URL(myUrl);
 
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -101,7 +100,6 @@ public class RestConnection extends AsyncTask<String, Void, String> {
         }
     }
 
-    //protected methods
     @Override
     protected String doInBackground(String... url) {
         try {
@@ -118,22 +116,21 @@ public class RestConnection extends AsyncTask<String, Void, String> {
         processFinish(items);
     }
 
-    //this method has to be inherited on child classes.
-    protected String getJsonParams() {
+    @Override
+    public String getJsonParams() {
         return "";
     }
 
-    //this method has to be inherited on child classes.
-    protected ArrayList parseJson(String jsonResult) {
+    @Override
+    public ArrayList parseJson(String jsonResult) {
         return null;
     }
 
-    //this method has to be inherited on child classes.
-    protected void processFinish(ArrayList items){
+    @Override
+    public void processFinish(ArrayList items) {
         return;
     }
 
-    //public methods
     public String getQuery() {
         return this.query;
     }

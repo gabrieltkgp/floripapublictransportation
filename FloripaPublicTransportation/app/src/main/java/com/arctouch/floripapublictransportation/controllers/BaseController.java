@@ -23,14 +23,14 @@ public class BaseController {
         this.context = context;
     }
 
-    private boolean isConnected(){
+    private boolean isConnected() {
         ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 
         return ((networkInfo != null) && networkInfo.isConnected());
     }
 
-    private boolean readRestConfiguration(){
+    private boolean readRestConfiguration() {
         restConfiguration = new RestConfiguration(getContext());
 
         try {
@@ -45,7 +45,7 @@ public class BaseController {
         }
     }
 
-    protected boolean validationRestConnection(){
+    protected boolean validationRestConnection() {
         if (!isConnected()) {
             showMessage("No network connection available.");
             return false;

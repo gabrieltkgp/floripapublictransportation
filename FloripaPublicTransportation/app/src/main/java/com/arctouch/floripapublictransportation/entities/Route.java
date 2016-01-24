@@ -33,31 +33,16 @@ public class Route implements Serializable{
         return longName;
     }
 
-    public void setLongName(String longName) {
-        this.longName = longName;
-    }
-
     public String getShortName() {
         return shortName;
-    }
-
-    public void setShortName(String shortName) {
-        this.shortName = shortName;
     }
 
     public String getLastModifiedDate() {
         return lastModifiedDate;
     }
 
-    public void setLastModifiedDate(String lastModifiedDate) {
-        this.lastModifiedDate = lastModifiedDate;
-    }
-
     public Integer getAgencyId() {
         return agencyId;
     }
 
-    public void setAgencyId(Integer agencyId) {
-        this.agencyId = agencyId;
-    }
 }

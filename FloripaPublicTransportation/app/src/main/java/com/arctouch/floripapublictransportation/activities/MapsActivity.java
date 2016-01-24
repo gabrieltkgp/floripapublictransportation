@@ -7,6 +7,7 @@ import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.arctouch.floripapublictransportation.R;
@@ -62,20 +63,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         markStreetOnTheMap(point);
     }
 
-    private void setStreetName(String streetName){
+    private void setStreetName(String streetName) {
         this.streetName = streetName;
 
-        Toast.makeText(this, this.streetName, Toast.LENGTH_SHORT).show();
+        showMessage(this.streetName);
     }
 
-    private void setNewMarker(LatLng point, String address){
+    private void setNewMarker(LatLng point, String address) {
         marker = mMap.addMarker(new MarkerOptions()
                 .position(point)
                 .title(address)
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
     }
 
-    private void clearOldMarker(){
+    private void clearOldMarker() {
         if (marker != null) {
             marker.remove();
         }
@@ -113,7 +114,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void returnStreetNameToListRouteActivity() {
         if ((streetName == null) || (streetName.toString().equals(""))) {
-            Toast.makeText(this, "No street was selected.", Toast.LENGTH_SHORT).show();
+            showMessage("No street was selected.");
             return;
         }
 
@@ -139,4 +140,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         finish();
     }
 
+    private void showMessage(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * this event was created to be used only by espresso unit test.
+     * @param v
+     */
+    public void onButtonInvisibleClick(View v) {
+        LatLng street = new LatLng(-27.5721637, -48.5325893);
+        markStreetOnTheMap(street);
+    }
 }

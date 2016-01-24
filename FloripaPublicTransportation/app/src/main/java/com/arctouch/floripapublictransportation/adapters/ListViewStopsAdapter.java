@@ -15,13 +15,14 @@ import java.util.ArrayList;
 /**
  * Created by GabrielPacheco on 05/01/2016.
  */
-public class ListViewStopsAdapter extends BaseAdapter{
+public class ListViewStopsAdapter extends BaseAdapter {
 
     private LayoutInflater mInflater;
     private ArrayList<Stop> items;
 
-    public ListViewStopsAdapter(Context context) {
+    public ListViewStopsAdapter(Context context, ArrayList<Stop> items) {
         this.mInflater = LayoutInflater.from(context);
+        this.items = items;
     }
 
     @Override
@@ -48,13 +49,5 @@ public class ListViewStopsAdapter extends BaseAdapter{
         ((TextView) convertView.findViewById(R.id.textViewItemListRoute)).setText(item.getName());
 
         return convertView;
-    }
-
-    public void setMInflater(Context context) {
-        this.mInflater = LayoutInflater.from(context);
-    }
-
-    public void setItems(ArrayList<Stop> items) {
-        this.items = items;
     }
 }

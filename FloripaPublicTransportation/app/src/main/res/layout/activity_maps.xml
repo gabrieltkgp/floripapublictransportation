@@ -60,7 +60,12 @@
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-    </RelativeLayout>
 
+        <Button
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            android:id="@+id/buttonInvisible"
+            android:onClick="onButtonInvisibleClick" />
+    </RelativeLayout>
 
 </RelativeLayout>

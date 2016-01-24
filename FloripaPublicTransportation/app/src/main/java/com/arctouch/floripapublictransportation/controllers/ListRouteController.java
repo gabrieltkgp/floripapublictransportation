@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.arctouch.floripapublictransportation.activities.DetailsRouteActivity;
-import com.arctouch.floripapublictransportation.components.FindRoutesRest;
+import com.arctouch.floripapublictransportation.restconnection.FindRoutesRest;
 import com.arctouch.floripapublictransportation.entities.Route;
 import com.arctouch.floripapublictransportation.interfaces.AsyncResponse;
 
@@ -13,6 +13,10 @@ import com.arctouch.floripapublictransportation.interfaces.AsyncResponse;
  */
 public class ListRouteController extends BaseController{
 
+    /**
+     *
+     * @param context
+     */
     public ListRouteController(Context context) {
         super(context);
     }

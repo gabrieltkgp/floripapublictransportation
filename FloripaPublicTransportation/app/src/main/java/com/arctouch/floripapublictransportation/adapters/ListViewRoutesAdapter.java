@@ -7,10 +7,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
 import com.arctouch.floripapublictransportation.R;
 import com.arctouch.floripapublictransportation.entities.Route;
+
+import java.util.ArrayList;
 
 /**
  * Created by GabrielPacheco on 05/01/2016.

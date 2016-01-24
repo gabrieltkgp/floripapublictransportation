@@ -1,8 +1,5 @@
 package com.arctouch.floripapublictransportation.tools;
 
-import android.widget.ArrayAdapter;
-import android.widget.GridView;
-
 import com.arctouch.floripapublictransportation.entities.Departure;
 import com.arctouch.floripapublictransportation.general.DepartureDay;
 
@@ -13,7 +10,7 @@ import java.util.ArrayList;
  */
 public class ProcessDeparture {
 
-    private int getInitialPosition(ArrayList<Departure> items, DepartureDay departureDay){
+    private int getInitialPosition(ArrayList<Departure> items, DepartureDay departureDay) {
         int initialPosition = -1;
         Departure departure;
         for (int i = 0; i < items.size(); i++) {
@@ -27,8 +24,8 @@ public class ProcessDeparture {
         return initialPosition;
     }
 
-    private int getFinalPosition(ArrayList<Departure> items, DepartureDay departureDay, int initialPosition){
-        if (initialPosition < 0){
+    private int getFinalPosition(ArrayList<Departure> items, DepartureDay departureDay, int initialPosition) {
+        if (initialPosition < 0) {
             return -1;
         }
 
@@ -52,11 +49,11 @@ public class ProcessDeparture {
     }
 
 
-    private ArrayList<Departure> getArrayListByDay(ArrayList<Departure> items, int initialPosition, int finalPosition){
+    private ArrayList<Departure> getArrayListByDay(ArrayList<Departure> items, int initialPosition, int finalPosition) {
 
         ArrayList<Departure> itemsByDay = new ArrayList<>();
 
-        if (initialPosition < 0){
+        if (initialPosition < 0) {
             return itemsByDay;
         }
 
@@ -81,15 +78,15 @@ public class ProcessDeparture {
         return getArrayListByDay(items, initialPosition, finalPosition);
     }
 
-    public ArrayList<Departure> createArrayListDepartureWeekDay(ArrayList<Departure> items){
+    public ArrayList<Departure> createArrayListDepartureWeekDay(ArrayList<Departure> items) {
         return splitArrayListDepartureByDay(items, DepartureDay.WEEKDAY);
     }
 
-    public ArrayList<Departure> createArrayListDepartureSaturday(ArrayList<Departure> items){
+    public ArrayList<Departure> createArrayListDepartureSaturday(ArrayList<Departure> items) {
         return splitArrayListDepartureByDay(items, DepartureDay.SATURDAY);
     }
 
-    public ArrayList<Departure> createArrayListDepartureSunday(ArrayList<Departure> items){
+    public ArrayList<Departure> createArrayListDepartureSunday(ArrayList<Departure> items) {
         return splitArrayListDepartureByDay(items, DepartureDay.SUNDAY);
     }
 }

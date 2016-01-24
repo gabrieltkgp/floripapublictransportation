@@ -49,8 +49,4 @@ public class GridViewDepartureAdapter extends BaseAdapter {
         return tv;
     }
 
-    public void setItems(ArrayList<Departure> items) {
-        this.items = items;
-    }
-
 }

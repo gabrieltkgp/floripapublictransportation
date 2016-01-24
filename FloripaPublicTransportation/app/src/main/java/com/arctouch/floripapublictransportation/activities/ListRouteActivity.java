@@ -22,7 +22,7 @@ import com.arctouch.floripapublictransportation.interfaces.AsyncResponse;
 
 import java.util.ArrayList;
 
-public class ListRouteActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, AsyncResponse {
+public class ListRouteActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, View.OnKeyListener, AsyncResponse {
 
     private ListView listView;
     private ListViewRoutesAdapter listViewRoutesAdapter;
@@ -49,28 +49,11 @@ public class ListRouteActivity extends AppCompatActivity implements AdapterView.
         listView = (ListView) findViewById(R.id.listViewRoute);
         listView.setOnItemClickListener(this);
 
-
-
         progressBar = (ProgressBar) findViewById(R.id.progressBarList);
         progressBar.setVisibility(ProgressBar.INVISIBLE);
 
-
         editText = (EditText) findViewById(R.id.editTextSearch);
-        editText.setOnKeyListener(new View.OnKeyListener() {
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (event.getAction() == KeyEvent.ACTION_DOWN) {
-                    switch (keyCode) {
-                        case KeyEvent.KEYCODE_DPAD_CENTER:
-                        case KeyEvent.KEYCODE_ENTER:
-                            executeRestConnection();
-                            return true;
-                        default:
-                            break;
-                    }
-                }
-                return false;
-            }
-        });
+        editText.setOnKeyListener(this);
     }
 
 
@@ -88,7 +71,20 @@ public class ListRouteActivity extends AppCompatActivity implements AdapterView.
         listView.setAdapter(listViewRoutesAdapter);
     }
 
-    private void executeRestConnection(){
+    private boolean isStreetFilled() {
+        if (!editText.getText().toString().equals("")) {
+            return true;
+        }
+
+        showMessage("Enter a street name");
+        return false;
+    }
+
+    private void executeRestConnection() {
+        if (!isStreetFilled()) {
+            return;
+        }
+
         progressBar.setVisibility(ProgressBar.VISIBLE);
         controller.executeRestConnection(editText.getText().toString());
     }
@@ -131,5 +127,20 @@ public class ListRouteActivity extends AppCompatActivity implements AdapterView.
                 executeRestConnection();
             }
         }
+    }
+
+    @Override
+    public boolean onKey(View v, int keyCode, KeyEvent event) {
+        if (event.getAction() == KeyEvent.ACTION_DOWN) {
+            switch (keyCode) {
+                case KeyEvent.KEYCODE_DPAD_CENTER:
+                case KeyEvent.KEYCODE_ENTER:
+                    executeRestConnection();
+                    return true;
+                default:
+                    break;
+            }
+        }
+        return false;
     }
 }

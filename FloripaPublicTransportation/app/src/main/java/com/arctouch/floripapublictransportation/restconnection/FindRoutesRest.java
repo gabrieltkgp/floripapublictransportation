@@ -1,6 +1,6 @@
-package com.arctouch.floripapublictransportation.components;
+package com.arctouch.floripapublictransportation.restconnection;
 
-import com.arctouch.floripapublictransportation.entities.Departure;
+import com.arctouch.floripapublictransportation.entities.Route;
 import com.arctouch.floripapublictransportation.general.RestType;
 import com.arctouch.floripapublictransportation.interfaces.AsyncResponse;
 
@@ -11,17 +11,18 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 /**
- * Created by GabrielPacheco on 14/01/2016.
+ * Created by GabrielPacheco on 12/01/2016.
  */
-public class FindDeparturesRest extends RestConnection{
+public class FindRoutesRest extends RestConnectionImpl {
 
-    public FindDeparturesRest(AsyncResponse delegate, String user, String password, String query) {
+    public FindRoutesRest(AsyncResponse delegate, String user, String password, String query) {
         super(delegate, user, password, query);
     }
 
     @Override
-    protected ArrayList parseJson(String jsonResult) {
-        ArrayList<Departure> items = new ArrayList<>();
+    public ArrayList parseJson(String jsonResult) {
+
+        ArrayList<Route> items = new ArrayList<>();
 
         try {
             JSONObject json = new JSONObject(jsonResult);
@@ -30,7 +31,7 @@ public class FindDeparturesRest extends RestConnection{
             for (int i = 0; i < rows.length(); i++) {
                 JSONObject obj = rows.getJSONObject(i);
 
-                Departure item = new Departure(obj.getInt("id"), obj.getString("calendar"), obj.getString("time"));
+                Route item = new Route(obj.getInt("id"), obj.getString("shortName"), obj.getString("longName"), obj.getString("lastModifiedDate"), obj.getInt("agencyId"));
 
                 items.add(item);
             }
@@ -42,12 +43,12 @@ public class FindDeparturesRest extends RestConnection{
     }
 
     @Override
-    protected String getJsonParams(){
-        return "{ \"params\": { \"routeId\": " + getQuery() + " } }";
+    public String getJsonParams(){
+        return "{ \"params\": { \"stopName\": \"%" + getQuery() + "%\" } }";
     }
 
     @Override
-    protected void processFinish(ArrayList items){
-        getDelegate().processFinish(items, RestType.DEPARTURE);
+    public void processFinish(ArrayList items){
+        getDelegate().processFinish(items, RestType.ROUTE);
     }
 }

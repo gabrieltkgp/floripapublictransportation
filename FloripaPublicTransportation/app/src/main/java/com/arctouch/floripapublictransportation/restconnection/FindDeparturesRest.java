@@ -1,6 +1,6 @@
-package com.arctouch.floripapublictransportation.components;
+package com.arctouch.floripapublictransportation.restconnection;
 
-import com.arctouch.floripapublictransportation.entities.Stop;
+import com.arctouch.floripapublictransportation.entities.Departure;
 import com.arctouch.floripapublictransportation.general.RestType;
 import com.arctouch.floripapublictransportation.interfaces.AsyncResponse;
 
@@ -13,15 +13,15 @@ import java.util.ArrayList;
 /**
  * Created by GabrielPacheco on 14/01/2016.
  */
-public class FindStopsRest extends RestConnection{
+public class FindDeparturesRest extends RestConnectionImpl {
 
-    public FindStopsRest(AsyncResponse delegate, String user, String password, String query) {
+    public FindDeparturesRest(AsyncResponse delegate, String user, String password, String query) {
         super(delegate, user, password, query);
     }
 
     @Override
-    protected ArrayList parseJson(String jsonResult) {
-        ArrayList<Stop> items = new ArrayList<>();
+    public ArrayList parseJson(String jsonResult) {
+        ArrayList<Departure> items = new ArrayList<>();
 
         try {
             JSONObject json = new JSONObject(jsonResult);
@@ -30,7 +30,7 @@ public class FindStopsRest extends RestConnection{
             for (int i = 0; i < rows.length(); i++) {
                 JSONObject obj = rows.getJSONObject(i);
 
-                Stop item = new Stop(obj.getInt("id"), obj.getString("name"), obj.getInt("sequence"), obj.getInt("route_id"));
+                Departure item = new Departure(obj.getInt("id"), obj.getString("calendar"), obj.getString("time"));
 
                 items.add(item);
             }
@@ -42,12 +42,13 @@ public class FindStopsRest extends RestConnection{
     }
 
     @Override
-    protected String getJsonParams(){
+    public String getJsonParams() {
         return "{ \"params\": { \"routeId\": " + getQuery() + " } }";
     }
 
     @Override
-    protected void processFinish(ArrayList items){
-        getDelegate().processFinish(items, RestType.STOP);
+    public void processFinish(ArrayList items) {
+        getDelegate().processFinish(items, RestType.DEPARTURE);
     }
+
 }

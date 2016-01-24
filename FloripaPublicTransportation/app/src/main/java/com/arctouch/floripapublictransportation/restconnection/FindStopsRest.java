@@ -1,6 +1,6 @@
-package com.arctouch.floripapublictransportation.components;
+package com.arctouch.floripapublictransportation.restconnection;
 
-import com.arctouch.floripapublictransportation.entities.Route;
+import com.arctouch.floripapublictransportation.entities.Stop;
 import com.arctouch.floripapublictransportation.general.RestType;
 import com.arctouch.floripapublictransportation.interfaces.AsyncResponse;
 
@@ -11,18 +11,17 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 /**
- * Created by GabrielPacheco on 12/01/2016.
+ * Created by GabrielPacheco on 14/01/2016.
  */
-public class FindRoutesRest extends RestConnection {
+public class FindStopsRest extends RestConnectionImpl {
 
-    public FindRoutesRest(AsyncResponse delegate, String user, String password, String query) {
+    public FindStopsRest(AsyncResponse delegate, String user, String password, String query) {
         super(delegate, user, password, query);
     }
 
     @Override
-    protected ArrayList parseJson(String jsonResult) {
-
-        ArrayList<Route> items = new ArrayList<>();
+    public ArrayList parseJson(String jsonResult) {
+        ArrayList<Stop> items = new ArrayList<>();
 
         try {
             JSONObject json = new JSONObject(jsonResult);
@@ -31,7 +30,7 @@ public class FindRoutesRest extends RestConnection {
             for (int i = 0; i < rows.length(); i++) {
                 JSONObject obj = rows.getJSONObject(i);
 
-                Route item = new Route(obj.getInt("id"), obj.getString("shortName"), obj.getString("longName"), obj.getString("lastModifiedDate"), obj.getInt("agencyId"));
+                Stop item = new Stop(obj.getInt("id"), obj.getString("name"), obj.getInt("sequence"), obj.getInt("route_id"));
 
                 items.add(item);
             }
@@ -43,12 +42,12 @@ public class FindRoutesRest extends RestConnection {
     }
 
     @Override
-    protected String getJsonParams(){
-        return "{ \"params\": { \"stopName\": \"%" + getQuery() + "%\" } }";
+    public String getJsonParams() {
+        return "{ \"params\": { \"routeId\": " + getQuery() + " } }";
     }
 
     @Override
-    protected void processFinish(ArrayList items){
-        getDelegate().processFinish(items, RestType.ROUTE);
+    public void processFinish(ArrayList items) {
+        getDelegate().processFinish(items, RestType.STOP);
     }
 }

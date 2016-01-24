@@ -34,8 +34,19 @@ public class ListRouteActivityTest {
             ListRouteActivity.class);
 
     @Test
+    public void testSearchEmpty() {
+        String mStringToBetyped = "";
+
+        // Type text and then press the button.
+        onView(withId(R.id.editTextSearch))
+                .perform(typeText(mStringToBetyped), closeSoftKeyboard());
+
+        onView(withId(R.id.buttonSearch)).perform(click());
+    }
+
+    @Test
     public void testSearchGovernadorResultBeiraMarNorte() {
-        String mStringToBetyped = "governador";
+        String mStringToBetyped = "Governador Irineu Bornhausen";
 
         // Type text and then press the button.
         onView(withId(R.id.editTextSearch))
@@ -51,7 +62,7 @@ public class ListRouteActivityTest {
 
     @Test
     public void testSearchGovernadorResultUfscSemiDireto() {
-        String mStringToBetyped = "governador";
+        String mStringToBetyped = "Governador Irineu Bornhausen";
 
         // Type text and then press the button.
         onView(withId(R.id.editTextSearch))
@@ -61,14 +72,68 @@ public class ListRouteActivityTest {
 
         onData(is(instanceOf(Route.class)))
                 .inAdapterView(withId(R.id.listViewRoute))
-                .atPosition(3)
+                .atPosition(2)
                 .perform(click());
 
         onView(withId(R.id.buttonBack)).perform(click());
     }
 
     @Test
-    public void testMaps(){
+    public void testSearchDelmindaSilveira() {
+        String mStringToBetyped = "Delminda Silveira";
+
+        // Type text and then press the button.
+        onView(withId(R.id.editTextSearch))
+                .perform(typeText(mStringToBetyped), closeSoftKeyboard());
+
+        onView(withId(R.id.buttonSearch)).perform(click());
+
+        onData(is(instanceOf(Route.class)))
+                .inAdapterView(withId(R.id.listViewRoute))
+                .atPosition(0)
+                .perform(click());
+
+        onView(withId(R.id.buttonBack)).perform(click());
+    }
+
+    @Test
+    public void testSearchMauroRamos() {
+        String mStringToBetyped = "Mauro Ramos";
+
+        // Type text and then press the button.
+        onView(withId(R.id.editTextSearch))
+                .perform(typeText(mStringToBetyped), closeSoftKeyboard());
+
+        onView(withId(R.id.buttonSearch)).perform(click());
+
+        onData(is(instanceOf(Route.class)))
+                .inAdapterView(withId(R.id.listViewRoute))
+                .atPosition(0)
+                .perform(click());
+
+        onView(withId(R.id.buttonBack)).perform(click());
+    }
+
+    @Test
+    public void testSearchDeputadoAntonioEduVieira() {
+        String mStringToBetyped = "Deputado Antonio Edu Vieira";
+
+        // Type text and then press the button.
+        onView(withId(R.id.editTextSearch))
+                .perform(typeText(mStringToBetyped), closeSoftKeyboard());
+
+        onView(withId(R.id.buttonSearch)).perform(click());
+
+        onData(is(instanceOf(Route.class)))
+                .inAdapterView(withId(R.id.listViewRoute))
+                .atPosition(0)
+                .perform(click());
+
+        onView(withId(R.id.buttonBack)).perform(click());
+    }
+
+    @Test
+    public void testShowGoogleMaps(){
         onView(withId(R.id.buttonShowMaps)).perform(click());
 
         try {
@@ -77,9 +142,16 @@ public class ListRouteActivityTest {
             e.printStackTrace();
         }
 
+        onView(withId(R.id.buttonInvisible)).perform(click());
+
         onView(withId(R.id.buttonSearchMaps)).perform(click());
 
-        onView(withId(R.id.buttonBackMaps)).perform(click());
+        onData(is(instanceOf(Route.class)))
+                .inAdapterView(withId(R.id.listViewRoute))
+                .atPosition(1)
+                .perform(click());
+
+        onView(withId(R.id.buttonBack)).perform(click());
     }
 
 }

@@ -43,7 +43,7 @@ public class DetailsRouteActivity extends AppCompatActivity implements AsyncResp
         progressBar.setVisibility(ProgressBar.INVISIBLE);
     }
 
-    private void defineRouteInformation(){
+    private void defineRouteInformation() {
         Intent it = getIntent();
 
         route = (Route) it.getSerializableExtra("route");
@@ -55,13 +55,14 @@ public class DetailsRouteActivity extends AppCompatActivity implements AsyncResp
         controller = new DetailsRouteController(this);
     }
 
-    private void executeRestConnection(){
+    private void executeRestConnection() {
         progressBar.setVisibility(ProgressBar.VISIBLE);
+
         controller.executeStopsRestConnection(route.getId().toString());
         controller.executeDeparturesRestConnection(route.getId().toString());
     }
 
-    private GridView getGridViewDay(DepartureDay departureDay){
+    private GridView getGridViewDay(DepartureDay departureDay) {
         GridView gridView = null;
 
         switch (departureDay) {
@@ -82,7 +83,7 @@ public class DetailsRouteActivity extends AppCompatActivity implements AsyncResp
         return gridView;
     }
 
-    private TextView getTextViewDay(DepartureDay departureDay){
+    private TextView getTextViewDay(DepartureDay departureDay) {
         TextView textView = null;
 
         switch (departureDay) {
@@ -103,11 +104,11 @@ public class DetailsRouteActivity extends AppCompatActivity implements AsyncResp
         return textView;
     }
 
-    private boolean isArrayListEmpty(ArrayList items){
+    private boolean isArrayListEmpty(ArrayList items) {
         return (items.size() == 0);
     }
 
-    private void hideGridViewDeparture(DepartureDay departureDay){
+    private void hideGridViewDeparture(DepartureDay departureDay) {
         TextView textView = getTextViewDay(departureDay);
         textView.setVisibility(View.INVISIBLE);
 
@@ -115,8 +116,8 @@ public class DetailsRouteActivity extends AppCompatActivity implements AsyncResp
         gridView.setVisibility(View.INVISIBLE);
     }
 
-    private void hideDepartureComponents(){
-        TextView textView = (TextView)findViewById(R.id.textViewDeparture);
+    private void hideDepartureComponents() {
+        TextView textView = (TextView) findViewById(R.id.textViewDeparture);
         textView.setVisibility(View.INVISIBLE);
 
         hideGridViewDeparture(DepartureDay.WEEKDAY);
@@ -127,7 +128,7 @@ public class DetailsRouteActivity extends AppCompatActivity implements AsyncResp
     private void configureGridViewDay(ArrayList<Departure> items, DepartureDay departureDay) {
         ArrayList<Departure> itemsDay = controller.getArrayListDeparture(items, departureDay);
 
-        if (isArrayListEmpty(itemsDay)){
+        if (isArrayListEmpty(itemsDay)) {
             hideGridViewDeparture(departureDay);
             return;
         }
@@ -139,8 +140,8 @@ public class DetailsRouteActivity extends AppCompatActivity implements AsyncResp
         VisualComponentsUtils.setDynamicHeightGridView(gridView);
     }
 
-    private void configureGridView(ArrayList<Departure> items){
-        if (isArrayListEmpty(items)){
+    private void configureGridView(ArrayList<Departure> items) {
+        if (isArrayListEmpty(items)) {
             hideDepartureComponents();
             return;
         }
@@ -152,9 +153,7 @@ public class DetailsRouteActivity extends AppCompatActivity implements AsyncResp
 
     private void configureListView(ArrayList<Stop> items) {
 
-        ListViewStopsAdapter listViewStopsAdapter = new ListViewStopsAdapter(this);
-
-        listViewStopsAdapter.setItems(items);
+        ListViewStopsAdapter listViewStopsAdapter = new ListViewStopsAdapter(this, items);
 
         listViewStop.setAdapter(listViewStopsAdapter);
 
