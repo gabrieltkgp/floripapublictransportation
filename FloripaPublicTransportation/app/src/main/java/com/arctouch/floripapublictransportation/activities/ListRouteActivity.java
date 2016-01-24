@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -48,11 +49,30 @@ public class ListRouteActivity extends AppCompatActivity implements AdapterView.
         listView = (ListView) findViewById(R.id.listViewRoute);
         listView.setOnItemClickListener(this);
 
-        editText = (EditText) findViewById(R.id.editTextSearch);
+
 
         progressBar = (ProgressBar) findViewById(R.id.progressBarList);
         progressBar.setVisibility(ProgressBar.INVISIBLE);
+
+
+        editText = (EditText) findViewById(R.id.editTextSearch);
+        editText.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                    switch (keyCode) {
+                        case KeyEvent.KEYCODE_DPAD_CENTER:
+                        case KeyEvent.KEYCODE_ENTER:
+                            executeRestConnection();
+                            return true;
+                        default:
+                            break;
+                    }
+                }
+                return false;
+            }
+        });
     }
+
 
     private void showDetailsRouteActivity(int position) {
         Route route = (Route) listViewRoutesAdapter.getItem(position);

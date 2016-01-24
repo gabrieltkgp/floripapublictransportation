@@ -16,7 +16,7 @@ import static org.junit.Assert.*;
 public class FormatAddressTest {
 
     @Test
-    public void testeExractStreetNameRemoveAvenida(){
+    public void testExractStreetNameRemoveAvenida(){
         FormatAddress formatAddress = new FormatAddress();
         String street = "AVENIDA TEST";
         street = formatAddress.extractStreetName(street);
@@ -25,7 +25,7 @@ public class FormatAddressTest {
     }
 
     @Test
-    public void testeExractStreetNameRemoveAv(){
+    public void testExractStreetNameRemoveAv(){
         FormatAddress formatAddress = new FormatAddress();
         String street = "AV. TEST";
         street = formatAddress.extractStreetName(street);
@@ -34,7 +34,7 @@ public class FormatAddressTest {
     }
 
     @Test
-    public void testeExractStreetNameRemoveRua(){
+    public void testExractStreetNameRemoveRua(){
         FormatAddress formatAddress = new FormatAddress();
         String street = "RUA TEST";
         street = formatAddress.extractStreetName(street);
@@ -43,7 +43,7 @@ public class FormatAddressTest {
     }
 
     @Test
-    public void testeExractStreetNameRemoveR(){
+    public void testExractStreetNameRemoveR(){
         FormatAddress formatAddress = new FormatAddress();
         String street = "R. TEST";
         street = formatAddress.extractStreetName(street);
@@ -52,7 +52,7 @@ public class FormatAddressTest {
     }
 
     @Test
-    public void testeExractStreetNameRemoveServidao(){
+    public void testExractStreetNameRemoveServidao(){
         FormatAddress formatAddress = new FormatAddress();
         String street = "SERVIDÃO TEST";
         street = formatAddress.extractStreetName(street);
@@ -61,7 +61,7 @@ public class FormatAddressTest {
     }
 
     @Test
-    public void testeExractStreetNameRemoveServ(){
+    public void testExractStreetNameRemoveServ(){
         FormatAddress formatAddress = new FormatAddress();
         String street = "SERV. TEST";
         street = formatAddress.extractStreetName(street);
@@ -70,7 +70,7 @@ public class FormatAddressTest {
     }
 
     @Test
-    public void testeExractStreetNameRemoveRodovia(){
+    public void testExractStreetNameRemoveRodovia(){
         FormatAddress formatAddress = new FormatAddress();
         String street = "RODOVIA TEST";
         street = formatAddress.extractStreetName(street);
@@ -79,7 +79,7 @@ public class FormatAddressTest {
     }
 
     @Test
-    public void testeExractStreetNameRemoveRod(){
+    public void testExractStreetNameRemoveRod(){
         FormatAddress formatAddress = new FormatAddress();
         String street = "ROD. TEST";
         street = formatAddress.extractStreetName(street);
@@ -88,7 +88,7 @@ public class FormatAddressTest {
     }
 
     @Test
-    public void testeExractStreetNameRemoveProfessor(){
+    public void testExractStreetNameRemoveProfessor(){
         FormatAddress formatAddress = new FormatAddress();
         String street = "PROFESSOR TEST";
         street = formatAddress.extractStreetName(street);
@@ -97,12 +97,21 @@ public class FormatAddressTest {
     }
 
     @Test
-    public void testeExractStreetNameRemoveProf(){
+    public void testExractStreetNameRemoveProf(){
         FormatAddress formatAddress = new FormatAddress();
         String street = "PROF. TEST";
         street = formatAddress.extractStreetName(street);
 
         Assert.assertEquals(street, "TEST");
+    }
+
+    @Test
+    public void testRemoveSpecialCharacter(){
+        FormatAddress formatAddress = new FormatAddress();
+        String street = "á ç í ã â á à ü";
+        street = formatAddress.removeSpecialCharacter(street);
+
+        Assert.assertEquals(street, "a c i a a a a u");
     }
 
 }

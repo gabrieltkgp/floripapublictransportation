@@ -1,11 +1,13 @@
 package com.arctouch.floripapublictransportation.tools;
 
+import java.text.Normalizer;
+
 /**
  * Created by GabrielPacheco on 23/01/2016.
  */
 public class FormatAddress {
 
-    public String extractStreetName(String street){
+    public String extractStreetName(String street) {
         String streetExtract;
 
         streetExtract = street.toUpperCase();
@@ -22,8 +24,17 @@ public class FormatAddress {
         streetExtract = streetExtract.replace("ROD.", "");
         streetExtract = streetExtract.replace("PROF.", "");
 
+        streetExtract = removeSpecialCharacter(streetExtract);
+
         streetExtract = streetExtract.trim();
 
         return streetExtract;
+    }
+
+    public String removeSpecialCharacter(String street) {
+        CharSequence cs = new StringBuilder(street);
+
+        return Normalizer.normalize(cs, Normalizer.Form.NFKD)
+                .replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
     }
 }
