@@ -39,17 +39,14 @@ public class VisualComponentsUtils {
             return;
         }
 
-        int height = 0;
-
         double count = gridView.getCount();
         double columns = gridView.getNumColumns();
         double result = count / columns;
         int nNumLines = (int) Math.ceil(result);
 
-        int desiredWidth = View.MeasureSpec.makeMeasureSpec(gridView.getWidth(), View.MeasureSpec.AT_MOST);
         View listItem = gridViewAdapter.getView(1, null, gridView);
-        listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
-        height = listItem.getMeasuredHeight() * (nNumLines + 2);
+        int height = listItem.getLayoutParams().height;
+        height = height * nNumLines;
 
         ViewGroup.LayoutParams params = gridView.getLayoutParams();
         params.height = height;
