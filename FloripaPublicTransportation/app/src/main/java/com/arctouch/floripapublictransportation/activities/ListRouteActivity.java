@@ -19,6 +19,7 @@ import com.arctouch.floripapublictransportation.entities.Route;
 import com.arctouch.floripapublictransportation.general.Constants;
 import com.arctouch.floripapublictransportation.general.RestType;
 import com.arctouch.floripapublictransportation.interfaces.AsyncResponse;
+import com.arctouch.floripapublictransportation.tools.FormatAddress;
 
 import java.util.ArrayList;
 
@@ -84,8 +85,12 @@ public class ListRouteActivity extends AppCompatActivity implements AdapterView.
             return;
         }
 
+        FormatAddress formatAddress = new FormatAddress();
+
+        String streetName = formatAddress.extractStreetName(editText.getText().toString());
+
         progressBar.setVisibility(ProgressBar.VISIBLE);
-        controller.executeRestConnection(editText.getText().toString());
+        controller.executeRestConnection(streetName);
     }
 
     private void receiveInformationFromMapsActivity(int requestCode, int resultCode, Intent data){
