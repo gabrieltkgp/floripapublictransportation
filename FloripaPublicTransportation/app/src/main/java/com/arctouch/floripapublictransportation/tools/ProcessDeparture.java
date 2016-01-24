@@ -10,6 +10,12 @@ import java.util.ArrayList;
  */
 public class ProcessDeparture {
 
+    /**
+     * find the initial position on the arraylist.
+     * @param items
+     * @param departureDay
+     * @return
+     */
     private int getInitialPosition(ArrayList<Departure> items, DepartureDay departureDay) {
         int initialPosition = -1;
         Departure departure;
@@ -24,6 +30,13 @@ public class ProcessDeparture {
         return initialPosition;
     }
 
+    /**
+     * find the final position on the arraylist
+     * @param items
+     * @param departureDay
+     * @param initialPosition
+     * @return
+     */
     private int getFinalPosition(ArrayList<Departure> items, DepartureDay departureDay, int initialPosition) {
         if (initialPosition < 0) {
             return -1;
@@ -48,7 +61,13 @@ public class ProcessDeparture {
         return finalPosition;
     }
 
-
+    /**
+     * extract items from initial to final position to another arraylist
+     * @param items
+     * @param initialPosition
+     * @param finalPosition
+     * @return
+     */
     private ArrayList<Departure> getArrayListByDay(ArrayList<Departure> items, int initialPosition, int finalPosition) {
 
         ArrayList<Departure> itemsByDay = new ArrayList<>();
@@ -78,14 +97,29 @@ public class ProcessDeparture {
         return getArrayListByDay(items, initialPosition, finalPosition);
     }
 
+    /**
+     * extract items of weekday to another arraylist
+     * @param items
+     * @return
+     */
     public ArrayList<Departure> createArrayListDepartureWeekDay(ArrayList<Departure> items) {
         return splitArrayListDepartureByDay(items, DepartureDay.WEEKDAY);
     }
 
+    /**
+     * extract items of saturday to another arraylist
+     * @param items
+     * @return
+     */
     public ArrayList<Departure> createArrayListDepartureSaturday(ArrayList<Departure> items) {
         return splitArrayListDepartureByDay(items, DepartureDay.SATURDAY);
     }
 
+    /**
+     * extract items of sunday to another arraylist
+     * @param items
+     * @return
+     */
     public ArrayList<Departure> createArrayListDepartureSunday(ArrayList<Departure> items) {
         return splitArrayListDepartureByDay(items, DepartureDay.SUNDAY);
     }

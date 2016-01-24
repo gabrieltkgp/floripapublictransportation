@@ -13,6 +13,7 @@ import java.io.IOException;
 
 /**
  * Created by GabrielPacheco on 21/01/2016.
+ * Base Class, need to be extended.
  */
 public class BaseController {
 
@@ -23,6 +24,10 @@ public class BaseController {
         this.context = context;
     }
 
+    /**
+     * verify the connectivity and the network.
+     * @return
+     */
     private boolean isConnected() {
         ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
@@ -30,6 +35,10 @@ public class BaseController {
         return ((networkInfo != null) && networkInfo.isConnected());
     }
 
+    /**
+     * read information to be used on the REST API
+     * @return
+     */
     private boolean readRestConfiguration() {
         restConfiguration = new RestConfiguration(getContext());
 

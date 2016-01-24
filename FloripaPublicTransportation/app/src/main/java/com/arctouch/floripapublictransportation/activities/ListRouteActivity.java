@@ -56,7 +56,6 @@ public class ListRouteActivity extends AppCompatActivity implements AdapterView.
         editText.setOnKeyListener(this);
     }
 
-
     private void showDetailsRouteActivity(int position) {
         Route route = (Route) listViewRoutesAdapter.getItem(position);
 
@@ -89,6 +88,45 @@ public class ListRouteActivity extends AppCompatActivity implements AdapterView.
         controller.executeRestConnection(editText.getText().toString());
     }
 
+    private void receiveInformationFromMapsActivity(int requestCode, int resultCode, Intent data){
+        if (requestCode != Constants.MAPS_ACTIVITY) {
+            return;
+        }
+        // Make sure the request was successful
+        if (resultCode != Activity.RESULT_OK) {
+            return;
+        }
+
+        String street = data.getStringExtra("street");
+
+        editText.setText(street);
+
+        executeRestConnection();
+    }
+
+    private boolean pressKeyEnter(int keyCode, KeyEvent event) {
+        if (event.getAction() != KeyEvent.ACTION_DOWN) {
+            return false;
+        }
+
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_DPAD_CENTER:
+            case KeyEvent.KEYCODE_ENTER:
+                executeRestConnection();
+                return true;
+            default:
+                break;
+        }
+
+        return false;
+    }
+
+    public void onButtonShowMapsClick(View v) {
+        Intent it = new Intent(this, MapsActivity.class);
+
+        startActivityForResult(it, Constants.MAPS_ACTIVITY);
+    }
+
     public void onButtonClick(View v) {
         executeRestConnection();
     }
@@ -109,38 +147,13 @@ public class ListRouteActivity extends AppCompatActivity implements AdapterView.
         controller.showMessage(message);
     }
 
-    public void onButtonShowMapsClick(View v) {
-        Intent it = new Intent(this, MapsActivity.class);
-
-        startActivityForResult(it, Constants.MAPS_ACTIVITY);
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == Constants.MAPS_ACTIVITY) {
-            // Make sure the request was successful
-            if (resultCode == Activity.RESULT_OK) {
-                String street = data.getStringExtra("street");
-
-                editText.setText(street);
-
-                executeRestConnection();
-            }
-        }
+        receiveInformationFromMapsActivity(requestCode, resultCode, data);
     }
 
     @Override
     public boolean onKey(View v, int keyCode, KeyEvent event) {
-        if (event.getAction() == KeyEvent.ACTION_DOWN) {
-            switch (keyCode) {
-                case KeyEvent.KEYCODE_DPAD_CENTER:
-                case KeyEvent.KEYCODE_ENTER:
-                    executeRestConnection();
-                    return true;
-                default:
-                    break;
-            }
-        }
-        return false;
+        return pressKeyEnter(keyCode, event);
     }
 }

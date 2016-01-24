@@ -13,10 +13,6 @@ import com.arctouch.floripapublictransportation.interfaces.AsyncResponse;
  */
 public class ListRouteController extends BaseController{
 
-    /**
-     *
-     * @param context
-     */
     public ListRouteController(Context context) {
         super(context);
     }

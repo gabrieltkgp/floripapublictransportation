@@ -11,6 +11,10 @@ import android.widget.ListView;
  */
 
 public class VisualComponentsUtils {
+    /**
+     * method to adjust height property of a listview
+     * @param mListView
+     */
     public static void setDynamicHeightListView(ListView mListView) {
         ListAdapter mListAdapter = mListView.getAdapter();
 
@@ -32,6 +36,10 @@ public class VisualComponentsUtils {
         mListView.requestLayout();
     }
 
+    /**
+     * method to adjust height property of a gridview
+     * @param gridView
+     */
     public static void setDynamicHeightGridView(GridView gridView) {
         ListAdapter gridViewAdapter = gridView.getAdapter();
 

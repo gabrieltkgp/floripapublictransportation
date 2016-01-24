@@ -8,7 +8,7 @@ import java.text.Normalizer;
 public class FormatAddress {
 
     /**
-     * Method to remove the public place name to send to the rest server.
+     * Method to remove the public place name to send to the REST API.
      * @param street
      * @return
      */
@@ -37,7 +37,7 @@ public class FormatAddress {
     }
 
     /**
-     * to avoid errors, it´s necessary remove special characteres to send to the rest server.
+     * to avoid errors, it´s necessary remove special characteres to send to the REST API.
      * @param street
      * @return
      */

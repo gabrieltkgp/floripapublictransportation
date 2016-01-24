@@ -21,3 +21,5 @@ check at \app\build\reports\coverage\debug\index.html
 
 #If the coverage report was not generate
 on Android Studio use Build > Clean Project / Build > Rebuild Project.
+
+#APK file is located on \app\build\outputs\apk

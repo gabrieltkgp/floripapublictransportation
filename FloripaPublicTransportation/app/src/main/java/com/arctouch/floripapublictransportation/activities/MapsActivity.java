@@ -149,6 +149,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * @param v
      */
     public void onButtonInvisibleClick(View v) {
+        //point of Governador Irineu Bornhausen
         LatLng street = new LatLng(-27.5721637, -48.5325893);
         markStreetOnTheMap(street);
     }

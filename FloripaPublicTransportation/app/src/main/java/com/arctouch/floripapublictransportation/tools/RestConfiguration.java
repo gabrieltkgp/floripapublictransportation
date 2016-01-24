@@ -24,6 +24,10 @@ public class RestConfiguration {
         return context.getResources().openRawResource(rawResId);
     }
 
+    /**
+     * read information from the file res/raw/configuration.properties to be used on REST API
+     * @throws IOException
+     */
     public void readProperties() throws IOException {
         Properties pp = new Properties();
 

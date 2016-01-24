@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 /**
  * Created by GabrielPacheco on 14/01/2016.
+ * Base class to establish connection to the REST API, this class need to be extended.
  */
 public class RestConnectionImpl extends AsyncTask<String, Void, String> implements RestConnection {
     private String user;
@@ -116,16 +117,29 @@ public class RestConnectionImpl extends AsyncTask<String, Void, String> implemen
         processFinish(items);
     }
 
+    /**
+     * this method must be implemented on the child class.
+     * @return
+     */
     @Override
     public String getJsonParams() {
         return "";
     }
 
+    /**
+     * this method must be implemented on the child class.
+     * @param jsonResult
+     * @return
+     */
     @Override
     public ArrayList parseJson(String jsonResult) {
         return null;
     }
 
+    /**
+     * this method must be implemented on the child class.
+     * @param items
+     */
     @Override
     public void processFinish(ArrayList items) {
         return;
