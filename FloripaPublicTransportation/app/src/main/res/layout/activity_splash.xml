@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:foo="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/splash"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@mipmap/background"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/texViewSplash"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Floripa Public Transportation"
+            android:textColor="#ffffff"
+            android:textSize="60dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_centerHorizontal="true"
+            android:autoText="false"
+            android:gravity="center|center_horizontal"
+            android:textAlignment="center"
+            android:layout_marginTop="50dp"
+            android:textStyle="bold"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <ImageView
+            android:id="@+id/imageViewSplash"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_below="@+id/texViewSplash"
+            android:layout_centerHorizontal="true"
+            android:src="@mipmap/bus_transparent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:foregroundGravity="center_vertical|center_horizontal"
+            android:background="@android:color/transparent" />
+    </LinearLayout>
+</RelativeLayout>

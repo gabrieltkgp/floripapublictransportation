@@ -1,0 +1,54 @@
+package com.arctouch.floripapublictransportation.restconnection;
+
+import com.arctouch.floripapublictransportation.entities.Route;
+import com.arctouch.floripapublictransportation.general.RestType;
+import com.arctouch.floripapublictransportation.interfaces.AsyncResponse;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
+/**
+ * Created by GabrielPacheco on 12/01/2016.
+ */
+public class FindRoutesRest extends RestConnectionImpl {
+
+    public FindRoutesRest(AsyncResponse delegate, String user, String password, String query) {
+        super(delegate, user, password, query);
+    }
+
+    @Override
+    public ArrayList parseJson(String jsonResult) {
+
+        ArrayList<Route> items = new ArrayList<>();
+
+        try {
+            JSONObject json = new JSONObject(jsonResult);
+            JSONArray rows = json.getJSONArray("rows");
+
+            for (int i = 0; i < rows.length(); i++) {
+                JSONObject obj = rows.getJSONObject(i);
+
+                Route item = new Route(obj.getInt("id"), obj.getString("shortName"), obj.getString("longName"), obj.getString("lastModifiedDate"), obj.getInt("agencyId"));
+
+                items.add(item);
+            }
+        } catch (JSONException e) {
+            getDelegate().showMessage("Error to parse json.");
+        }
+
+        return items;
+    }
+
+    @Override
+    public String getJsonParams(){
+        return "{ \"params\": { \"stopName\": \"%" + getQuery() + "%\" } }";
+    }
+
+    @Override
+    public void processFinish(ArrayList items){
+        getDelegate().processFinish(items, RestType.ROUTE);
+    }
+}
